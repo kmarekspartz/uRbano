@@ -5,3 +5,6 @@
 *~
 /docs/
 /inst/doc/
+/R_libs/
+inst/doc
+docs
