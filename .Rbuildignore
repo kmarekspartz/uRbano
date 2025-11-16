@@ -1,0 +1,8 @@
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^cran-comments\.md$
+^CODE_OF_CONDUCT\.md$
+^\.github$
+^README\.Rmd$
+^data-raw$
