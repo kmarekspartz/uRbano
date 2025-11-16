@@ -1,11 +1,12 @@
 Package: uRbano
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Title: Spatial Sampling Across Built Density Gradients
+Version: 0.0.2025.12.1 # TODO: finalize initial release date
+Authors@R:
+    person("Mary", "Marek-Spartz", , "patt0335@umn.edu", role = c("aut"))
+    person("First", "Last", , "first.last@example.com", role = c("aut")) # TODO: Collaborator
+    # TODO: one of these will need role "cre" - This is the maintainer of the package. They are responsible for submitting the package to CRAN, updating it, and responding to CRAN maintainers.
+Description: Spatial sampling design across urban environmental gradients, to guide users in building reproducible, gradient-informed experimental designs for ecological research in urban and human-modified landscapes.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a license # TODO
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
