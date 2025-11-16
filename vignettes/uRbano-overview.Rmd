@@ -1,0 +1,67 @@
+---
+title: "uRbano Overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{uRbano Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette provides an overview of the `uRbano` package.
+
+## Example Usage
+
+Here is an example of how to use the `uRbano` package to calculate a built density index for a city.
+
+```{r, eval=FALSE}
+library(uRbano)
+library(ggplot2)
+
+# Get a 30km radius around San Juan
+rad <- get_city_rad("San Juan", 30000)
+
+# Extract OpenStreetMap roads within the radius
+rds <- extract_osm_rds(rad)
+
+# Get building footprints for Puerto Rico
+blds <- get_bldgs("PuertoRico")
+
+# Trim and fix building geometries
+blds <- fix_n_trim_bldgs(blds, rad)
+
+# Transform the data to meters
+rad <- transform_to_meters(rad, method = "NAD")
+blds <- st_transform(blds, crs = st_crs(rad))
+rds <- st_transform(rds, crs = st_crs(rad))
+
+# Create a hexagonal grid
+Rgrid <- radius_hex_grid(rad, 1000)
+
+# Calculate road lengths and building areas by grid cell
+rd_lens <- calculate_rds_by_grid(Rgrid, rds)
+bld_ars <- calculate_blds_by_grid(Rgrid, blds)
+
+# Combine into a density index
+bld_ars[is.na(bld_ars)] <- 0
+rd_lens[is.na(rd_lens)] <- 0
+
+R_grid <- Rgrid %>%
+  mutate(rd_len = rd_lens, bldg_ars = bld_ars) %>%
+  mutate(
+    rd_lvls = cut(rd_len, 5, labels = 1:5),
+    bldg_lvls = cut(bldg_ars, 5, labels = 1:5)
+  ) %>%
+  mutate(dens_dex = as.numeric(rd_lvls) + as.numeric(bldg_lvls))
+
+# Plot the density index
+ggplot(data = R_grid, aes(fill = dens_dex, color = dens_dex)) +
+  geom_sf() +
+  scale_fill_viridis_b()
+```
