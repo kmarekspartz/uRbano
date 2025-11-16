@@ -1,16 +1,14 @@
-library(dplyr)
-library(ggplot2)
-library(sf)
-library(geojsonsf)
-library(maps)
-library(osmdata)
-library(data.table)
-library(R.utils)
-library(units)
-library(readr)
-
-
-#function to create a radius around user-specified city center
+#' Create a radius around a user-specified city center
+#'
+#' @param city A character string of the city name.
+#' @param radius A numeric value of the radius in meters.
+#' @param state An optional character string of the state name.
+#' @return An sf object of the city radius.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' }
+#' @export
 get_city_rad <- function(city, radius, state) {
   # Find matching cities
   if(missing(state)) {
@@ -56,11 +54,16 @@ get_city_rad <- function(city, radius, state) {
   return(cty_crc)
 }
 
-###################################
-rad <- get_city_rad("San Juan", 30000)
-###################################
-
-#function to get OSM roads from overpass API for the extent extracted from the city radius
+#' Extract OpenStreetMap roads within a given city radius
+#'
+#' @param city_radius An sf object representing the city radius.
+#' @return An sf object of the roads.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' rds <- extract_osm_rds(rad)
+#' }
+#' @export
 extract_osm_rds<-function(city_radius){
   cty_ex<-extent(city_radius)
   
@@ -74,14 +77,16 @@ extract_osm_rds<-function(city_radius){
   return(wrds)
 }
 
-########################
-rds<-extract_osm_rds(rad)
-########################
-
-
-# building footprint functions 
-
-# if in US use this source, need to add user input to change the state file
+#' Get building footprints for a given region
+#'
+#' @param region1 A character string of the first region.
+#' @param region2 An optional character string of the second region.
+#' @return An sf object of the building footprints.
+#' @examples
+#' \dontrun{
+#' blds <- get_bldgs("PuertoRico")
+#' }
+#' @export
 get_bldgs<-function(region1, region2=NULL){
   if (region1 == "UnitedStates") {
     stop("You are going to want to use individual US states as inputs, trust me on this one :)")
@@ -158,12 +163,18 @@ get_bldgs<-function(region1, region2=NULL){
   }
 }
 
-
-#############################
-blds<-get_bldgs("PuertoRico")
-#############################
-
-#OPTIONAL BUT RECOMMENDED - reduce buildings to extent of radius and filter out invalid geoms
+#' Trim building footprints to a given radius and fix invalid geometries
+#'
+#' @param blds An sf object of building footprints.
+#' @param rad An sf object of the city radius.
+#' @return An sf object of the trimmed and fixed building footprints.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' blds <- get_bldgs("PuertoRico")
+#' blds <- fix_n_trim_bldgs(blds, rad)
+#' }
+#' @export
 fix_n_trim_bldgs<-function(blds, rad){
   
   cty_ex<-extent(rad)
@@ -181,17 +192,17 @@ fix_n_trim_bldgs<-function(blds, rad){
   sf_use_s2(TRUE)
 }
 
-################################
-blds<-fix_n_trim_bldgs(blds, rad)
-################################
-
-#sf_use_s2(TRUE)
-
-
-
-#This from Claude API except for NAD helper function
-#Anthropic. (2024). Claude (Version 3) [Large language model]. https://www.claude.ai
-
+#' Transform sf data to meters
+#'
+#' @param sf_data An sf object.
+#' @param method A character string of the transformation method ("utm", "NAD", or "web_mercator").
+#' @return An sf object transformed to meters.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' rad <- transform_to_meters(rad, method = "NAD")
+#' }
+#' @export
 transform_to_meters <- function(sf_data, method = "utm") {
   if (method == "utm") {
     get_utm_crs <- function(sf_data) {
@@ -247,15 +258,17 @@ transform_to_meters <- function(sf_data, method = "utm") {
   }
 }
 
-########################################
-#rad<- transform_to_meters(rad, method = "NAD")
-
-blds<-st_transform(blds, crs = crs(rad))
-rds<-st_transform(rds, crs = crs(rad))
-########################################
-
-
-
+#' Create a hexagonal grid within a given radius
+#'
+#' @param radius An sf object of the city radius.
+#' @param hex_size A numeric value of the hexagon size in meters.
+#' @return An sf object of the hexagonal grid.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' Rgrid <- radius_hex_grid(rad, 1000)
+#' }
+#' @export
 radius_hex_grid<-function(radius, hex_size){
   if(st_crs(radius)$epsg==4326){
     gr <- st_make_grid(radius, square=FALSE, cellsize = (hex_size/111000)) %>% st_sf()
@@ -268,14 +281,20 @@ radius_hex_grid<-function(radius, hex_size){
   gr <- gr%>%filter(pred==TRUE)
   return(gr)
 }
-  
-#################################
-Rgrid<-radius_hex_grid(rad, 1000)
-#################################
 
-
-
-
+#' Calculate road length by grid cell
+#'
+#' @param grid An sf object of the hexagonal grid.
+#' @param rds An sf object of the roads.
+#' @return A numeric vector of the road lengths by grid cell.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' rds <- extract_osm_rds(rad)
+#' Rgrid <- radius_hex_grid(rad, 1000)
+#' rd_lens <- calculate_rds_by_grid(Rgrid, rds)
+#' }
+#' @export
 calculate_rds_by_grid <- function(grid, rds) {
   # Ensure parameters are sf objects
   if (!inherits(grid, "sf") || !inherits(rds, "sf")) {
@@ -301,11 +320,20 @@ calculate_rds_by_grid <- function(grid, rds) {
   return(drop_units(rd_jn$tlen))
 }
 
-##########################################
-rd_lens<-calculate_rds_by_grid(Rgrid, rds)
-##########################################
-
-
+#' Calculate building area by grid cell
+#'
+#' @param grid An sf object of the hexagonal grid.
+#' @param blds An sf object of the building footprints.
+#' @return A numeric vector of the building areas by grid cell.
+#' @examples
+#' \dontrun{
+#' rad <- get_city_rad("San Juan", 30000)
+#' blds <- get_bldgs("PuertoRico")
+#' blds <- fix_n_trim_bldgs(blds, rad)
+#' Rgrid <- radius_hex_grid(rad, 1000)
+#' bld_ars <- calculate_blds_by_grid(Rgrid, blds)
+#' }
+#' @export
 calculate_blds_by_grid<-function(grid, blds){
   if (!inherits(grid, "sf") || !inherits(blds, "sf")) {
     stop("Both grid and roads must be sf objects")
@@ -334,34 +362,3 @@ calculate_blds_by_grid<-function(grid, blds){
   # Return as a numeric vector
   return(drop_units(bld_jn$tarea))
 }
-
-###########################################
-bld_ars<-calculate_blds_by_grid(Rgrid, blds)
-###########################################
-
-
-##############################################################################################################
-bld_ars[is.na(bld_ars)] <- 0
-rd_lens[is.na(rd_lens)] <- 0 #necessary if you plan to combine them into an index!
-
-R_grid<-Rgrid %>% mutate(rd_len=rd_lens, bldg_ars=bld_ars) #add rd length to grid data
-R_grid<-R_grid %>% mutate(rd_lvls=cut((rd_len),5, labels= c(1:5)), bldg_lvls=cut(bldg_ars,5, labels= c(1:5))) #factor into 5 equal interval levels
-
-
-R_grid<-R_grid %>% mutate(dens_dex=as.numeric(rd_lvls)+as.numeric(bldg_lvls)) 
-
-ggplot(data = R_grid, aes(fill = dens_dex, color= dens_dex)) +
-  geom_sf() +
-  scale_fill_viridis_b()
-
-
-
-R_grid$dens_dex<-as.factor(R_grid$dens_dex)
-ggplot() +
-  geom_sf(data = R_grid, aes(fill = dens_dex, color= dens_dex)) +
-  scale_fill_manual(values = c("white","#ffe5ec","#ffc2cd", "#ff93ac","#ff6289","#ff6289","#fc3468","#ff084a","#ff084a"))+
-  scale_color_manual(values = c("white","#ffe5ec","#ffc2cd", "#ff93ac","#ff6289","#ff6289","#fc3468","#ff084a","#ff084a"))+
-  geom_sf(data=rad, fill="transparent", linewidth=1.2)+
-  theme_minimal()
-
-##############################################################################################################
