@@ -4,7 +4,7 @@ Version: 0.0.2025.12.1 # TODO: finalize initial release date
 Authors@R:
     person("Mary", "Marek-Spartz", , "patt0335@umn.edu", role = c("aut"))
     person("First", "Last", , "first.last@example.com", role = c("aut")) # TODO: Collaborator
-    # TODO: one of these will need role "cre" - This is the maintainer of the package. They are responsible for submitting the package to CRAN, updating it, and responding to an maintainers.
+    # TODO: one of these will need role "cre" - This is the maintainer of the package. They are responsible for submitting the package to CRAN, updating it, and responding to CRAN maintainers.
 Description: Spatial sampling design across urban environmental gradients, to guide users in building reproducible, gradient-informed experimental designs for ecological research in urban and human-modified landscapes.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a license # TODO: Please choose a license for your package.
 Encoding: UTF-8
@@ -23,5 +23,5 @@ Imports:
 Suggests:
     ggplot2,
     testthat
-URL: # TODO: Add your GitHub repository URL here
-BugReports: # TODO: Add your GitHub repository URL here with "/issues" appended
+URL: https://github.com/MSP-LTER/uRbano
+BugReports: https://github.com/MSP-LTER/uRbano/issues
