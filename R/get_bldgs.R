@@ -60,6 +60,7 @@ get_bldgs <- function(region1, region2 = NULL) {
   )
   # use helper function get_blds_by_regions to run multiple times in the event there are two regions
   get_blds_by_regions <- function(region) {
+    Location <- NULL
     if (region %in% USstates) {
       region <- gsub(" ", "", region)
       ft_link <- paste0(

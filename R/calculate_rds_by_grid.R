@@ -17,6 +17,8 @@
 #' # Rgrid<-Rgrid %>% dplyr::mutate(rd_lens=rd_lens)
 #'
 calculate_rds_by_grid <- function(grid, rds) {
+  ID <- NULL
+  rd_len <- NULL
   # Ensure parameters are sf objects
   if (!inherits(grid, "sf") || !inherits(rds, "sf")) {
     stop("Both grid and roads must be sf objects")
