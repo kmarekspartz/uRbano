@@ -24,11 +24,12 @@ calculate_rds_by_grid <- function(grid, rds) {
 
   # ensure parameters have same CRS
   if ((terra::crs(grid)) != (terra::crs(rds))) {
-    stop("Both grid and roads must be transformed to same UTM zone, use transform_US_utm()")
+    stop(
+      "Both grid and roads must be transformed to same UTM zone, use transform_US_utm()"
+    )
   }
 
   grid <- grid %>% dplyr::mutate(ID = rownames(grid))
-
 
   rd_clips <- sf::st_intersection(grid, rds)
 

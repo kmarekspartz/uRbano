@@ -30,13 +30,18 @@ get_city_rad <- function(city, radius) {
     cat("Multiple cities found:\n")
     for (i in 1:nrow(cty)) {
       cat(sprintf(
-        "%d: %s, %s (Pop: %s)\n", i, cty$name[i], cty$country.etc[i],
+        "%d: %s, %s (Pop: %s)\n",
+        i,
+        cty$name[i],
+        cty$country.etc[i],
         format(cty$pop[i], big.mark = ",")
       ))
     }
 
     # Get user selection, they give the number in the list of the city they choose
-    selection <- as.numeric(readline(prompt = "Please select a city by number: "))
+    selection <- as.numeric(readline(
+      prompt = "Please select a city by number: "
+    ))
 
     # Validate selection
     if (is.na(selection) || selection < 1 || selection > nrow(cty)) {

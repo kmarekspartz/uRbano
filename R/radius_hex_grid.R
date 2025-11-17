@@ -15,10 +15,18 @@
 #'
 radius_hex_grid <- function(radius, hex_size) {
   if (sf::st_crs(radius)$epsg == 4326) {
-    gr <- sf::st_make_grid(radius, square = FALSE, cellsize = (hex_size / 111000)) %>% sf::st_sf()
-    warning("converting hex size to units of lat/lon, size is approximate conversion to meters")
+    gr <- sf::st_make_grid(
+      radius,
+      square = FALSE,
+      cellsize = (hex_size / 111000)
+    ) %>%
+      sf::st_sf()
+    warning(
+      "converting hex size to units of lat/lon, size is approximate conversion to meters"
+    )
   } else {
-    gr <- sf::st_make_grid(radius, square = FALSE, cellsize = hex_size) %>% sf::st_sf()
+    gr <- sf::st_make_grid(radius, square = FALSE, cellsize = hex_size) %>%
+      sf::st_sf()
   }
   # get predicate for where hexes intersect so they don't get cut off at the border
   ig <- lengths(sf::st_intersects(gr, radius)) > 0

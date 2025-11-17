@@ -25,32 +25,69 @@
 # if in US use this source, need to add user input to change the state file
 get_bldgs <- function(region1, region2 = NULL) {
   if (region1 == "UnitedStates") {
-    stop("You are going to want to use individual US states as inputs, trust me on this one :)")
+    stop(
+      "You are going to want to use individual US states as inputs, trust me on this one :)"
+    )
   }
   if (region1 == "Canada") {
     stop("Use Canadian provinces as inputs, it will be easier on all of us")
   }
-  USstates <- gsub("\\b([a-z])", "\\U\\1", c(unique(sub(":.*", "", maps::state.fips$polyname)), "alaska", "hawaii"), perl = TRUE)
-  Ca <- c("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon")
-  all_regions <- utils::read.table("https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv", header = TRUE, sep = ",")
+  USstates <- gsub(
+    "\\b([a-z])",
+    "\\U\\1",
+    c(unique(sub(":.*", "", maps::state.fips$polyname)), "alaska", "hawaii"),
+    perl = TRUE
+  )
+  Ca <- c(
+    "Alberta",
+    "British Columbia",
+    "Manitoba",
+    "New Brunswick",
+    "Newfoundland and Labrador",
+    "Northwest Territories",
+    "Nova Scotia",
+    "Nunavut",
+    "Ontario",
+    "Prince Edward Island",
+    "Quebec",
+    "Saskatchewan",
+    "Yukon"
+  )
+  all_regions <- utils::read.table(
+    "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
+    header = TRUE,
+    sep = ","
+  )
   # use helper function get_blds_by_regions to run multiple times in the event there are two regions
   get_blds_by_regions <- function(region) {
     if (region %in% USstates) {
       region <- gsub(" ", "", region)
-      ft_link <- paste0("https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/", region, ".geojson.zip")
+      ft_link <- paste0(
+        "https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/",
+        region,
+        ".geojson.zip"
+      )
       message(paste("getting building footprints from", ft_link))
       infile1 <- tempfile()
       try(utils::download.file(ft_link, infile1, method = "curl"))
-      if (is.na(file.size(infile1))) utils::download.file(ft_link, infile1, method = "auto")
+      if (is.na(file.size(infile1))) {
+        utils::download.file(ft_link, infile1, method = "auto")
+      }
       foots <- sf::st_read(utils::unzip(infile1))
       unlink(infile1)
     } else if (region %in% Ca) {
       region <- gsub(" ", "", region)
-      ft_link <- paste0("https://minedbuildings.z5.web.core.windows.net/legacy/canadian-buildings-v2/", region, ".zip")
+      ft_link <- paste0(
+        "https://minedbuildings.z5.web.core.windows.net/legacy/canadian-buildings-v2/",
+        region,
+        ".zip"
+      )
       message(paste("getting building footprints from", ft_link))
       infile1 <- tempfile()
       try(utils::download.file(ft_link, infile1, method = "curl"))
-      if (is.na(file.size(infile1))) utils::download.file(ft_link, infile1, method = "auto")
+      if (is.na(file.size(infile1))) {
+        utils::download.file(ft_link, infile1, method = "auto")
+      }
       foots <- sf::st_read(utils::unzip(infile1))
       unlink(infile1)
     } else if (region %in% all_regions$Location) {
@@ -78,11 +115,15 @@ get_bldgs <- function(region1, region2 = NULL) {
   # If second region is specified, download and bind
   if (!is.null(region2)) {
     if (region2 == "UnitedStates") {
-      warning("You are going to want to use individual US states as inputs, trust me on this one :)")
+      warning(
+        "You are going to want to use individual US states as inputs, trust me on this one :)"
+      )
       return(foots1)
     }
     if (region2 == "Canada") {
-      warning("Use Canadian provinces as inputs, it will be easier on all of us")
+      warning(
+        "Use Canadian provinces as inputs, it will be easier on all of us"
+      )
       return(foots1)
     }
     foots2 <- get_blds_by_regions(region2)
@@ -91,7 +132,12 @@ get_bldgs <- function(region1, region2 = NULL) {
     tryCatch(
       {
         foots_combined <- rbind(foots1, foots2)
-        message(paste("Combined building footprints from", region1, "and", region2))
+        message(paste(
+          "Combined building footprints from",
+          region1,
+          "and",
+          region2
+        ))
 
         return(foots_combined)
       },
