@@ -16,25 +16,25 @@
 #' uRbano::get_city_rad(city = "Minneapolis", radius = 30000)
 #'
 # function to create a radius around user-specified city center
-get_city_rad <- function(city, radius) {
+get_city_radius <- function(city, radius) {
   # Find matching cities
-  cty <- subset(maps::world.cities, maps::world.cities$name == city)
+  city_data <- subset(maps::world.cities, maps::world.cities$name == city)
 
   # Handle case where no cities are found
-  if (nrow(cty) == 0) {
+  if (nrow(city_data) == 0) {
     stop("No cities found matching the criteria")
   }
 
   # Handle case where multiple cities are found
-  if (nrow(cty) > 1) {
+  if (nrow(city_data) > 1) {
     cat("Multiple cities found:\n")
-    for (i in 1:nrow(cty)) {
+    for (i in 1:nrow(city_data)) {
       cat(sprintf(
         "%d: %s, %s (Pop: %s)\n",
         i,
-        cty$name[i],
-        cty$country.etc[i],
-        format(cty$pop[i], big.mark = ",")
+        city_data$name[i],
+        city_data$country.etc[i],
+        format(city_data$pop[i], big.mark = ",")
       ))
     }
 
@@ -44,17 +44,17 @@ get_city_rad <- function(city, radius) {
     ))
 
     # Validate selection
-    if (is.na(selection) || selection < 1 || selection > nrow(cty)) {
+    if (is.na(selection) || selection < 1 || selection > nrow(city_data)) {
       stop("Invalid selection")
     }
 
     # Use selected city
-    cty <- cty[selection, ]
+    city_data <- city_data[selection, ]
   }
 
   # Convert to sf object and create buffer
-  cty_coords <- sf::st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
-  cty_crc <- sf::st_buffer(cty_coords, radius)
+  city_coordinates <- sf::st_as_sf(city_data, coords = c("long", "lat"), crs = 4326)
+  city_radius_circle <- sf::st_buffer(city_coordinates, radius)
 
-  return(cty_crc)
+  return(city_radius_circle)
 }
