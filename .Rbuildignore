@@ -5,6 +5,9 @@
 ^pkgdown$
 ^cran-comments\.md$
 ^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
+^SECURITY\.md$
 ^\.github$
 ^README\.Rmd$
 ^data-raw$
+^LICENSE\.md$

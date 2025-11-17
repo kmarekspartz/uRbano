@@ -48,8 +48,8 @@ get_city_rad <- function(city, radius, state) {
   }
   
   # Convert to sf object and create buffer
-  cty_coords <- st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
-  cty_crc <- st_buffer(cty_coords, radius)
+  cty_coords <- sf::st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
+  cty_crc <- sf::st_buffer(cty_coords, radius)
   
   return(cty_crc)
 }
@@ -106,7 +106,7 @@ get_bldgs<-function(region1, region2=NULL){
       infile1 <- tempfile()
       try(download.file(ft_link,infile1,method="curl"))
       if (is.na(file.size(infile1))) download.file(ft_link,infile1,method="auto")
-      foots<-st_read(unzip(infile1))
+      foots<-sf::st_read(unzip(infile1))
       unlink(infile1)
     }else if(region %in% Ca){
       region<-gsub(" ", "", region)
@@ -115,10 +115,10 @@ get_bldgs<-function(region1, region2=NULL){
       infile1 <- tempfile()
       try(download.file(ft_link,infile1,method="curl"))
       if (is.na(file.size(infile1))) download.file(ft_link,infile1,method="auto")
-      foots<-st_read(unzip(infile1))
+      foots<-sf::st_read(unzip(infile1))
       unlink(infile1)
     }else if(region %in% all_regions$Location){
-      fts<-all_regions%>%filter(Location==region)
+      fts<-all_regions%>%dplyr::filter(Location==region)
       foot_urls <- list()
       # Loop through the URLs and read each CSV
       for (url in fts$Url) {
@@ -126,7 +126,7 @@ get_bldgs<-function(region1, region2=NULL){
       }
       combined_foots <- do.call(rbind, foot_urls)
       cnty_fts<-geojson_sfc(combined_foots$X1)
-      foots<-st_as_sf(cnty_fts, crs=4326)
+      foots<-sf::st_as_sf(cnty_fts, crs=4326)
     }else{warning("cannot find buildings for that region")}
     #ft_link<-paste0("https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/", state, ".geojson.zip")
     
@@ -178,13 +178,13 @@ get_bldgs<-function(region1, region2=NULL){
 fix_n_trim_bldgs<-function(blds, rad){
   
   cty_ex<-extent(rad)
-  bbox <- st_bbox(c(xmin = cty_ex@xmin[[1]], ymin = cty_ex@ymin[[1]], xmax = cty_ex@xmax[[1]], ymax = cty_ex@ymax[[1]]), crs = 4326) # Use your CRS
-  bbox_sf <- st_as_sfc(bbox)
+  bbox <- sf::st_bbox(c(xmin = cty_ex@xmin[[1]], ymin = cty_ex@ymin[[1]], xmax = cty_ex@xmax[[1]], ymax = cty_ex@ymax[[1]]), crs = 4326) # Use your CRS
+  bbox_sf <- sf::st_as_sfc(bbox)
   sf_use_s2(FALSE) #turn off spherical geometry
-  blds<-st_filter(blds, bbox_sf)
+  blds<-sf::st_filter(blds, bbox_sf)
   gc()
   
-  invalid_geometries <- blds[!st_is_valid(blds), ] 
+  invalid_geometries <- blds[!sf::st_is_valid(blds), ] 
   if(nrow(invalid_geometries)>0){
     x_blds<-as.numeric(rownames(invalid_geometries))
     blds<-blds[-c(x_blds),]
@@ -207,8 +207,8 @@ transform_to_meters <- function(sf_data, method = "utm") {
   if (method == "utm") {
     get_utm_crs <- function(sf_data) {
       # Get centroid of data
-      centroid <- st_centroid(st_union(sf_data))
-      coords <- st_coordinates(centroid)
+      centroid <- sf::st_centroid(sf::st_union(sf_data))
+      coords <- sf::st_coordinates(centroid)
       lon <- coords[1]
       
       # Calculate UTM zone
@@ -226,35 +226,35 @@ transform_to_meters <- function(sf_data, method = "utm") {
     
     utm_epsg <- get_utm_crs(sf_data)
     message("Using UTM Zone EPSG:", utm_epsg)
-    return(st_transform(sf_data, utm_epsg))
+    return(sf::st_transform(sf_data, utm_epsg))
   } else if (method == "NAD") {
     transform_NAD_utm<-function(rad){
-      longitude <- st_coordinates(st_centroid(rad))[, 1]
+      longitude <- sf::st_coordinates(sf::st_centroid(rad))[, 1]
       if(longitude>=(-126) && longitude<(-120)){print("z10")}
-      else if(longitude>=(-120) && longitude<(-114)){return(st_transform(rad,crs=26911))}
-      else if(longitude>=(-114) && longitude<(-108)){return(st_transform(rad,crs=26912))}
-      else if(longitude>=(-108) && longitude<(-102)){return(st_transform(rad,crs=26913))}
-      else if(longitude>=(-102) && longitude<(-96)){return(st_transform(rad,crs=26914))}
-      else if(longitude>=(-96) && longitude<(-90)){return(st_transform(rad,crs=26915))}
-      else if(longitude>=(-90) && longitude<(-84)){return(st_transform(rad,crs=26916))}
-      else if(longitude>=(-84) && longitude<(-78)){return(st_transform(rad,crs=26917))}
-      else if(longitude>=(-78) && longitude<(-72)){return(st_transform(rad,crs=26918))}
-      else if(longitude>=(-72) && longitude<(-66)){return(st_transform(rad,crs=26919))}
-      else if(longitude>=(-180) && longitude<(-174)){return(st_transform(rad,crs=26901))}
-      else if(longitude>=(-174) && longitude<(-168)){return(st_transform(rad,crs=26902))}
-      else if(longitude>=(-168) && longitude<(-162)){return(st_transform(rad,crs=26903))}
-      else if(longitude>=(-162) && longitude<(-156)){return(st_transform(rad,crs=26904))}
-      else if(longitude>=(-156) && longitude<(-150)){return(st_transform(rad,crs=26905))}
-      else if(longitude>=(-150) && longitude<(-144)){return(st_transform(rad,crs=26906))}
-      else if(longitude>=(-144) && longitude<(-138)){return(st_transform(rad,crs=26907))}
-      else if(longitude>=(-138) && longitude<(-132)){return(st_transform(rad,crs=26908))}
-      else if(longitude>=(-132) && longitude<(-126)){return(st_transform(rad,crs=26909))}
+      else if(longitude>=(-120) && longitude<(-114)){return(sf::st_transform(rad,crs=26911))}
+      else if(longitude>=(-114) && longitude<(-108)){return(sf::st_transform(rad,crs=26912))}
+      else if(longitude>=(-108) && longitude<(-102)){return(sf::st_transform(rad,crs=26913))}
+      else if(longitude>=(-102) && longitude<(-96)){return(sf::st_transform(rad,crs=26914))}
+      else if(longitude>=(-96) && longitude<(-90)){return(sf::st_transform(rad,crs=26915))}
+      else if(longitude>=(-90) && longitude<(-84)){return(sf::st_transform(rad,crs=26916))}
+      else if(longitude>=(-84) && longitude<(-78)){return(sf::st_transform(rad,crs=26917))}
+      else if(longitude>=(-78) && longitude<(-72)){return(sf::st_transform(rad,crs=26918))}
+      else if(longitude>=(-72) && longitude<(-66)){return(sf::st_transform(rad,crs=26919))}
+      else if(longitude>=(-180) && longitude<(-174)){return(sf::st_transform(rad,crs=26901))}
+      else if(longitude>=(-174) && longitude<(-168)){return(sf::st_transform(rad,crs=26902))}
+      else if(longitude>=(-168) && longitude<(-162)){return(sf::st_transform(rad,crs=26903))}
+      else if(longitude>=(-162) && longitude<(-156)){return(sf::st_transform(rad,crs=26904))}
+      else if(longitude>=(-156) && longitude<(-150)){return(sf::st_transform(rad,crs=26905))}
+      else if(longitude>=(-150) && longitude<(-144)){return(sf::st_transform(rad,crs=26906))}
+      else if(longitude>=(-144) && longitude<(-138)){return(sf::st_transform(rad,crs=26907))}
+      else if(longitude>=(-138) && longitude<(-132)){return(sf::st_transform(rad,crs=26908))}
+      else if(longitude>=(-132) && longitude<(-126)){return(sf::st_transform(rad,crs=26909))}
       else{warning("Coordinates outside North America UTM Zones")}
     }
     
     return(transform_NAD_utm(sf_data))
   } else if (method == "web_mercator") {
-    return(st_transform(sf_data, 3857))
+    return(sf::st_transform(sf_data, 3857))
   }
 }
 
@@ -270,15 +270,15 @@ transform_to_meters <- function(sf_data, method = "utm") {
 #' }
 #' @export
 radius_hex_grid<-function(radius, hex_size){
-  if(st_crs(radius)$epsg==4326){
-    gr <- st_make_grid(radius, square=FALSE, cellsize = (hex_size/111000)) %>% st_sf()
+  if(sf::st_crs(radius)$epsg==4326){
+    gr <- sf::st_make_grid(radius, square=FALSE, cellsize = (hex_size/111000)) %>% sf::st_sf()
     warning("converting hex size to units of lat/lon, size is approximate conversion to meters")
-  }else{gr <- st_make_grid(radius, square=FALSE, cellsize = hex_size) %>% st_sf()}
+  }else{gr <- sf::st_make_grid(radius, square=FALSE, cellsize = hex_size) %>% sf::st_sf()}
   #get predicate for where hexes intersect so they don't get cut off at the border
-  ig = lengths(st_intersects(gr, radius)) > 0
-  gr<-gr%>%mutate(pred=ig)
+  ig = lengths(sf::st_intersects(gr, radius)) > 0
+  gr<-gr%>%dplyr::mutate(pred=ig)
   # Filter the hex grid to keep only intersecting hexagons
-  gr <- gr%>%filter(pred==TRUE)
+  gr <- gr%>%dplyr::filter(pred==TRUE)
   return(gr)
 }
 
@@ -302,19 +302,19 @@ calculate_rds_by_grid <- function(grid, rds) {
   }
   
   #ensure parameters have same CRS
-  if ((crs(grid)) != (crs(rds))) {
+  if ((terra::crs(grid)) != (terra::crs(rds))) {
     stop("Both grid and roads must be transformed to same UTM zone, use transform_US_utm()")
   }
   
-  grid<-grid%>%mutate(ID=rownames(grid))
+  grid<-grid%>%dplyr::mutate(ID=rownames(grid))
   
   
-  rd_clips <-st_intersection(grid, rds)
+  rd_clips <-sf::st_intersection(grid, rds)
   
-  rd_clips <- rd_clips%>%mutate(rd_len=st_length(rd_clips))
-  sumlen<-rd_clips%>%group_by(ID)%>%summarise(tlen=sum(rd_len))
+  rd_clips <- rd_clips%>%dplyr::mutate(rd_len=sf::st_length(rd_clips))
+  sumlen<-rd_clips%>%dplyr::group_by(ID)%>%dplyr::summarise(tlen=sum(rd_len))
   
-  rd_jn<-left_join(grid, st_drop_geometry(sumlen), by="ID")
+  rd_jn<-dplyr::left_join(grid, sf::st_drop_geometry(sumlen), by="ID")
   
   # Return as a numeric vector
   return(drop_units(rd_jn$tlen))
@@ -340,23 +340,23 @@ calculate_blds_by_grid<-function(grid, blds){
   }
   
   #ensure parameters have same CRS
-  if ((crs(grid)) != (crs(blds))) {
+  if ((terra::crs(grid)) != (terra::crs(blds))) {
     stop("Both grid and roads must be transformed to same UTM zone, use transform_US_utm()")
   }
   
   
-  grid<-grid%>%mutate(ID=rownames(grid))
+  grid<-grid%>%dplyr::mutate(ID=rownames(grid))
   
   
-  bld_clips <-st_intersection(grid, blds)
+  bld_clips <-sf::st_intersection(grid, blds)
   
-  bld_clips <- bld_clips%>%mutate(area=st_area(bld_clips))
-  sumars<-bld_clips%>%group_by(ID)%>%summarise(tarea=sum(area))
+  bld_clips <- bld_clips%>%dplyr::mutate(area=sf::st_area(bld_clips))
+  sumars<-bld_clips%>%dplyr::group_by(ID)%>%dplyr::summarise(tarea=sum(area))
   
-  bld_jn<-left_join(grid, st_drop_geometry(sumars), by="ID")
+  bld_jn<-dplyr::left_join(grid, sf::st_drop_geometry(sumars), by="ID")
   # Calculate lengths and sum by grid square
-  #bld_clips$area <- st_area(bld_clips)
-  #total_ar_by_cell <- aggregate(bld_clips$area, by = list(bld_clips$ID), FUN = st_area)$x
+  #bld_clips$area <- sf::st_area(bld_clips)
+  #total_ar_by_cell <- aggregate(bld_clips$area, by = list(bld_clips$ID), FUN = sf::st_area)$x
   
   
   # Return as a numeric vector

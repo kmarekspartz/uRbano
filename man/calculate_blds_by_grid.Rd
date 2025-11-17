@@ -12,8 +12,6 @@ calculate_blds_by_grid(grid, blds)
 \item{grid}{An sf object of the hexagonal grid.}
 
 \item{blds}{An sf object of the building footprints.}
-
-\item{rds}{(sf object) building footprints sf object}
 }
 \value{
 vector of total building area in meters that is the same length as the number of rows in the grid sf object
@@ -27,7 +25,7 @@ takes the result of radius_hex_grid and get_bldgs to sum the area of building fo
 # calculate the summed building footprint area per each 1km hexagon in the grid
 # bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
 # add column for building area to the hex grid
-# Rgrid<-Rgrid \%>\% mutate(bld_ars=bld_ars)
+# Rgrid<-Rgrid \%>\% dplyr::mutate(bld_ars=bld_ars)
 
 \dontrun{
 rad <- get_city_rad("San Juan", 30000)

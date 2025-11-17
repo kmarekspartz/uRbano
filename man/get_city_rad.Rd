@@ -21,15 +21,12 @@ get_city_rad(city, radius, state)
 An sf object of the city radius.
 }
 \description{
-subsets user input city name from \code{world.cities} dataset in \code{maps} and creates a radius around the city center coordinates in specified meters
+subsets user input city name from \code{world.cities} dataset in \code{maps} and creates a radius around the city center coordinates in specified
 }
 \examples{
-# provide city name as a string and number of meters for radius drawn from coordinates of city center
+# provide city name as a string and number of meters for radius from coordinates of city center
 ## 30km radius polygon for Minneapois USA
 # uRbano::get_city_rad(city="Minneapolis", radius=30000)
-
-
-## if more than one city is found, a numbered list will be returned with information on city's country and population for the user to specify their selection by number
 
 \dontrun{
 rad <- get_city_rad("San Juan", 30000)

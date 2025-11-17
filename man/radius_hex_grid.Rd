@@ -19,7 +19,7 @@ sf object of hexagon mesh with hexagons on the edge of the radius retained, not 
 An sf object of the hexagonal grid.
 }
 \description{
-uses st_make_grid to produce an sf object of a hexagon mesh across the specified city radius. If given an sf object in WGS 84, it will approximate meters given for the width of the hexagons to decimal degrees
+uses sf::st_make_grid to produce an sf object of a hexagon mesh across the specified city radius. If given an sf object in WGS 84, it will approximate meters given for the width of the hexagons to decimal degrees
 }
 \examples{
 # create grid of 1km hexagons across 'rad' polygon

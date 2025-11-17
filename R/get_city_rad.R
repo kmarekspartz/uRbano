@@ -1,6 +1,7 @@
 #' @title Get city and create radius in meters
 #'
-#' @description subsets user input city name from `world.cities` dataset in `maps` and creates a radius around the city center coordinates in specified meters
+#' @description subsets user input city name from `world.cities` dataset in `maps` and creates a radius around the city center coordinates in specified
+#meters. if more than one city is found, a numbered list will be returned with information on city's country and population for the user to specify their selection by number
 #'
 #' @param city (city) string of city name for selection from `world.cities` dataset in `maps`
 #'
@@ -9,12 +10,9 @@
 #' @export
 #'
 #' @examples
-#' # provide city name as a string and number of meters for radius drawn from coordinates of city center
+#' # provide city name as a string and number of meters for radius from coordinates of city center
 #' ## 30km radius polygon for Minneapois USA
 #' # uRbano::get_city_rad(city="Minneapolis", radius=30000)
-#' 
-#'
-#' ## if more than one city is found, a numbered list will be returned with information on city's country and population for the user to specify their selection by number
 #'
 #function to create a radius around user-specified city center
 get_city_rad <- function(city, radius) {
@@ -47,8 +45,8 @@ get_city_rad <- function(city, radius) {
   }
   
   # Convert to sf object and create buffer
-  cty_coords <- st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
-  cty_crc <- st_buffer(cty_coords, radius)
+  cty_coords <- sf::st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
+  cty_crc <- sf::st_buffer(cty_coords, radius)
   
   return(cty_crc)
 }
