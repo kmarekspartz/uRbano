@@ -1,27 +1,34 @@
 #' @title Get building footprints for a region of interest
 #'
-#' @description takes user input as a string of the region or two regions - for border cities - to extract building footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net.
+#' @description takes user input as a string of the region or two regions -
+#' for border cities - to extract building footprint data from Microsoft's
+#' ML Building Footprints released under ODbL license:
+#' https://minedbuildings.z5.web.core.windows.net.
 #'
-#' @param region1 (string) character string of region to look up in online building footprint releases
+#' @param region1 (string) character string of region to look up in online
+#' building footprint releases
 #' @param region2 (string) optional second string
 #
-#' @return large simple features object of polygons representing building footprints. If region2 is in another country, a list containing two sf objects is returned
+#' @return large simple features object of polygons representing building
+#' footprints. If region2 is in another country, a list containing two sf
+#' objects is returned
 #'
+#' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
 #' # get building footprints for US state
-#' # blds<-uRbano::get_bldgs(region1="North Dakota")
+#' # blds <- uRbano::get_bldgs(region1="North Dakota")
 #' # get building footprints for two US states
-#' # blds<-uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
+#' # blds <- uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
 #' # get building footprints for Canadian province
-#' # blds<-uRbano::getbldgs(region1="Manitoba")
+#' # blds <- uRbano::get_bldgs(region1="Manitoba")
 #' # get buildings for country or other territories
-#' # blds<-uRbano::get_bldgs(region1="PuertoRico")
+#' # blds <- uRbano::get_bldgs(region1="PuertoRico")
 #' # two regions from different countries
-#' # blds<-uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
-#' # ND<-blds$region1
-#' # MB<-blds$region2
+#' # blds <- uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
+#' # nd <- blds$region1
+#' # mb <- blds$region2
 # if in US use this source, need to add user input to change the state file
 get_bldgs <- function(region1, region2 = NULL) {
   if (region1 == "UnitedStates") {
@@ -32,13 +39,13 @@ get_bldgs <- function(region1, region2 = NULL) {
   if (region1 == "Canada") {
     stop("Use Canadian provinces as inputs, it will be easier on all of us")
   }
-  USstates <- gsub(
+  us_states <- gsub(
     "\\b([a-z])",
     "\\U\\1",
     c(unique(sub(":.*", "", maps::state.fips$polyname)), "alaska", "hawaii"),
     perl = TRUE
   )
-  Ca <- c(
+  ca_provinces <- c(
     "Alberta",
     "British Columbia",
     "Manitoba",
@@ -58,10 +65,10 @@ get_bldgs <- function(region1, region2 = NULL) {
     header = TRUE,
     sep = ","
   )
-  # use helper function get_blds_by_regions to run multiple times in the event there are two regions
-  get_blds_by_regions <- function(region) {
-    Location <- NULL
-    if (region %in% USstates) {
+  # use helper function get_blds_by_region to run multiple times in the event there are two regions
+  get_blds_by_region <- function(region) {
+    location <- NULL
+    if (region %in% us_states) {
       region <- gsub(" ", "", region)
       ft_link <- paste0(
         "https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/",
@@ -76,7 +83,7 @@ get_bldgs <- function(region1, region2 = NULL) {
       }
       foots <- sf::st_read(utils::unzip(infile1))
       unlink(infile1)
-    } else if (region %in% Ca) {
+    } else if (region %in% ca_provinces) {
       region <- gsub(" ", "", region)
       ft_link <- paste0(
         "https://minedbuildings.z5.web.core.windows.net/legacy/canadian-buildings-v2/",
@@ -104,14 +111,12 @@ get_bldgs <- function(region1, region2 = NULL) {
     } else {
       warning("cannot find buildings for that region")
     }
-    # ft_link<-paste0("https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/", state, ".geojson.zip")
-
-    return(foots)
+    foots
   }
 
   # Download first region
   # try catch to return separate results if rbind fails
-  foots1 <- get_blds_by_regions(region1)
+  foots1 <- get_blds_by_region(region1)
 
   # If second region is specified, download and bind
   if (!is.null(region2)) {
@@ -127,7 +132,7 @@ get_bldgs <- function(region1, region2 = NULL) {
       )
       return(foots1)
     }
-    foots2 <- get_blds_by_regions(region2)
+    foots2 <- get_blds_by_region(region2)
 
     # Bind the two datasets together
     tryCatch(
@@ -140,15 +145,15 @@ get_bldgs <- function(region1, region2 = NULL) {
           region2
         ))
 
-        return(foots_combined)
+        foots_combined
       },
       error = function(e) {
         # rbind failed, return the inputs separately
         warning(paste("rbind failed:", e$message, "\nReturning as list"))
-        return(list(region1 = foots1, region2 = foots2))
+        list(region1 = foots1, region2 = foots2)
       }
     )
   } else {
-    return(foots1)
+    foots1
   }
 }

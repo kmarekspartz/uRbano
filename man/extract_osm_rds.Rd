@@ -7,13 +7,18 @@
 extract_osm_rds(city_radius)
 }
 \arguments{
-\item{city_radius}{(sfc) can be any sf object from which an extent bounding box can be drawn}
+\item{city_radius}{(sfc) can be any sf object from which an extent
+bounding box can be drawn}
 }
 \value{
-(LINESTRING sfc) sf object of line features as road segments of OSM key "highway" from within extent of given polygon argument
+(LINESTRING sfc) sf object of line features as road segments of
+OSM key "highway" from within extent of given polygon argument
 }
 \description{
-Counts the number of occurrences of each element in both provided vectors and then calculates the difference in that count between the first and second input vector. Counting of NAs in addition to non-NA values is supported.
+Counts the number of occurrences of each element in both
+provided vectors and then calculates the difference in that count between
+the first and second input vector. Counting of NAs in addition to non-NA
+values is supported.
 }
 \examples{
 # result from get_city_radius

@@ -7,7 +7,8 @@
 get_city_rad(city, radius)
 }
 \arguments{
-\item{city}{(city) string of city name for selection from \code{maps::world.cities} dataset in \code{maps}}
+\item{city}{(city) string of city name for selection from \code{maps::world.cities}
+dataset in \code{maps}}
 
 \item{radius}{(radius) integer of radius in meters}
 }
@@ -15,7 +16,8 @@ get_city_rad(city, radius)
 (sfc) sf polygon simple feature collection of 1 feature with WGS 84 CRS
 }
 \description{
-subsets user input city name from \code{maps::world.cities} dataset in \code{maps} and creates a radius around the city center coordinates in specified
+subsets user input city name from \code{maps::world.cities} dataset
+in \code{maps} and creates a radius around the city center coordinates in specified
 }
 \examples{
 # provide city name as a string and number of meters for radius from coordinates of city center

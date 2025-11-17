@@ -1,9 +1,14 @@
 #' @title Get road features from OSM Overpass API for extent of city radius
 #'
-#' @description Counts the number of occurrences of each element in both provided vectors and then calculates the difference in that count between the first and second input vector. Counting of NAs in addition to non-NA values is supported.
+#' @description Counts the number of occurrences of each element in both
+#' provided vectors and then calculates the difference in that count between
+#' the first and second input vector. Counting of NAs in addition to non-NA
+#' values is supported.
 #'
-#' @param city_radius (sfc) can be any sf object from which an extent bounding box can be drawn
-#' @return (LINESTRING sfc) sf object of line features as road segments of OSM key "highway" from within extent of given polygon argument
+#' @param city_radius (sfc) can be any sf object from which an extent
+#' bounding box can be drawn
+#' @return (LINESTRING sfc) sf object of line features as road segments of
+#' OSM key "highway" from within extent of given polygon argument
 #'
 #' @importFrom magrittr `%>%`
 #' @importFrom terra ext
@@ -45,6 +50,5 @@ extract_osm_rds <- function(city_radius) {
       )
     ) %>%
     osmdata::osmdata_sf()
-  wrds <- rds$osm_lines
-  return(wrds)
+  rds$osm_lines
 }
