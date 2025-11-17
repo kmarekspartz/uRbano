@@ -60,21 +60,12 @@ jobs:
 
       - name: Spell check
         run: |
-          pkg_name <- pkgload::pkg_name()
-          # add common, non-English words to a temporary dictionary
-          dict_file <- tempfile()
-          writeLines(c("uRbano", "raster", "terra", "sf", "rgb"), dict_file)
           spelling::spell_check_files(
             list.files(
               c("R", "vignettes"),
               pattern = "\\.(R|Rmd)$",
               full.names = TRUE,
               recursive = TRUE
-            ),
-            ignore = spelling::get_wordlist(
-              pkg = file.path(pkg_name),
-              vignettes = TRUE,
-              wordlist = dict_file
             )
           )
         shell: Rscript {0}
