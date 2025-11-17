@@ -9,7 +9,6 @@
 #' @return vector of total road length in meters that is the same length as the number of rows in the grid sf object
 #'
 #' @export
-#' @importFrom magrittr "%>%"
 #'
 #' @examples
 #' # calculate the summed length of road segments per each 1km hexagon in the grid
