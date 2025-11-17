@@ -11,9 +11,9 @@
 #'
 #' @examples
 #' # calculate the summed building footprint area per each 1km hexagon in the grid
-#' bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
+#' # bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
 #' # add column for building area to the hex grid
-#' Rgrid<-Rgrid %>% mutate(bld_ars=bld_ars)
+#' # Rgrid<-Rgrid %>% mutate(bld_ars=bld_ars)
 #' 
 calculate_blds_by_grid<-function(grid, blds){
   if (!inherits(grid, "sf") || !inherits(blds, "sf")) {

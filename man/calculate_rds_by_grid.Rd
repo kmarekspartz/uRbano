@@ -23,9 +23,9 @@ takes the result of radius_hex_grid and extract_osm_rds to sum the length of roa
 }
 \examples{
 # calculate the summed length of road segments per each 1km hexagon in the grid
-rd_lens<-uRbano::calculate_rds_by_grid(Rgrid, rds)
+# rd_lens<-uRbano::calculate_rds_by_grid(Rgrid, rds)
 # add column for road length to the hex grid
-Rgrid<-Rgrid \%>\% mutate(rd_lens=rd_lens)
+# Rgrid<-Rgrid \%>\% mutate(rd_lens=rd_lens)
 
 \dontrun{
 rad <- get_city_rad("San Juan", 30000)

@@ -25,15 +25,15 @@ takes the result of radius_hex_grid and get_bldgs to sum the area of building fo
 }
 \examples{
 # calculate the summed building footprint area per each 1km hexagon in the grid
-bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
+# bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
 # add column for building area to the hex grid
-Rgrid<-Rgrid \%>\% mutate(bld_ars=bld_ars)
+# Rgrid<-Rgrid \%>\% mutate(bld_ars=bld_ars)
 
 \dontrun{
 rad <- get_city_rad("San Juan", 30000)
 blds <- get_bldgs("PuertoRico")
 blds <- fix_n_trim_bldgs(blds, rad)
 Rgrid <- radius_hex_grid(rad, 1000)
-bld_ars <- calculate_blds_by_grid(Rgrid, blds)
+# bld_ars <- calculate_blds_by_grid(Rgrid, blds)
 }
 }

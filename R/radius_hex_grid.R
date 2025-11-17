@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # create grid of 1km hexagons across 'rad' polygon
-#' Rgrid<-uRbano::radius_hex_grid(rad, 1000)
+#' # Rgrid<-uRbano::radius_hex_grid(rad, 1000)
 #' 
 #' 
 radius_hex_grid<-function(radius, hex_size){

@@ -23,7 +23,7 @@ uses st_make_grid to produce an sf object of a hexagon mesh across the specified
 }
 \examples{
 # create grid of 1km hexagons across 'rad' polygon
-Rgrid<-uRbano::radius_hex_grid(rad, 1000)
+# Rgrid<-uRbano::radius_hex_grid(rad, 1000)
 
 
 \dontrun{

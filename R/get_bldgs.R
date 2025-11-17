@@ -11,17 +11,17 @@
 #'
 #' @examples
 #' # get building footprints for US state
-#' blds<-uRbano::get_bldgs(region1="North Dakota")
+#' # blds<-uRbano::get_bldgs(region1="North Dakota")
 #' #get building footprints for two US states
-#' blds<-uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
+#' # blds<-uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
 #' # get building footprints for Canadian province
-#' blds<-uRbano::getbldgs(region1="Manitoba")
+#' # blds<-uRbano::getbldgs(region1="Manitoba")
 #' # get buildings for country or other territories
-#' blds<-uRbano::get_bldgs(region1="PuertoRico")
+#' # blds<-uRbano::get_bldgs(region1="PuertoRico")
 #' # two regions from different countries
-#' blds<-uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
-#' ND<-blds$region1
-#' MB<-blds$region2
+#' # blds<-uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
+#' # ND<-blds$region1
+#' # MB<-blds$region2
 
 # if in US use this source, need to add user input to change the state file
 get_bldgs<-function(region1, region2=NULL){

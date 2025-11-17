@@ -23,7 +23,7 @@ OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a radius and filter out
 }
 \examples{
 # fix invalid geometries and clip building footprints to city radius
-blds<-uRbano::fix_n_trim_bldgs(blds, rad)
+# blds<-uRbano::fix_n_trim_bldgs(blds, rad)
 \dontrun{
 rad <- get_city_rad("San Juan", 30000)
 blds <- get_bldgs("PuertoRico")

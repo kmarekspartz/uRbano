@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # transform to NAD 83 meters UTM
-#' rad<- uRbano::transform_to_meters(rad, method="NAD")
+#' # rad<- uRbano::transform_to_meters(rad, method="NAD")
 #' 
 #' 
 transform_to_meters <- function(sf_data, method = "web_mercator") {

@@ -23,7 +23,7 @@ Optional but recommended, transform buildings, roads and city radius features to
 }
 \examples{
 # transform to NAD 83 meters UTM
-rad<- uRbano::transform_to_meters(rad, method="NAD")
+# rad<- uRbano::transform_to_meters(rad, method="NAD")
 
 
 \dontrun{

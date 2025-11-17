@@ -331,7 +331,7 @@ calculate_rds_by_grid <- function(grid, rds) {
 #' blds <- get_bldgs("PuertoRico")
 #' blds <- fix_n_trim_bldgs(blds, rad)
 #' Rgrid <- radius_hex_grid(rad, 1000)
-#' bld_ars <- calculate_blds_by_grid(Rgrid, blds)
+#' # bld_ars <- calculate_blds_by_grid(Rgrid, blds)
 #' }
 #' @export
 calculate_blds_by_grid<-function(grid, blds){

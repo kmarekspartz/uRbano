@@ -11,9 +11,9 @@
 #' 
 #' @examples
 #' #result from get_city_radius
-#' rad<-uRbano::get_city_radius("Minneapolis",30000)
+#' # rad<-uRbano::get_city_radius("Minneapolis",30000)
 #' # Count difference in all values between the two
-#' uRbano::extract_osm_rds(city_radius=rad)
+#' # uRbano::extract_osm_rds(city_radius=rad)
 #' 
 #function to get OSM roads from overpass API for the extent extracted from the city radius
 extract_osm_rds<-function(city_radius){
