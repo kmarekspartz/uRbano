@@ -1,5 +1,5 @@
 ---
-title: "mypkg-overview"
+title: "uRbano"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{mypkg-overview}

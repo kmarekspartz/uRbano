@@ -1,8 +1,8 @@
 #' @title Get building footprints for a region of interest
 #'
-#' @description takes user input as a string of the region or two regions - for border cities - to extract builing footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net. 
+#' @description takes user input as a string of the region or two regions - for border cities - to extract building footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net. 
 #'
-#' @param region1 (string) character string of region to look up in online building footprint resealses
+#' @param region1 (string) character string of region to look up in online building footprint releases
 #' @param region2 (string) optional second string 
 #
 #' @return large simple features object of polygons representing building footprints. If region2 is in another country, a list containing two sf objects is returned

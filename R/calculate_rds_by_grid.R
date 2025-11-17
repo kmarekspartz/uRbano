@@ -3,7 +3,7 @@
 #' @description takes the result of radius_hex_grid and extract_osm_rds to sum the length of road segments in meters within each hexagon of the grid
 #'
 #' @param grid (sf object) output of radius_hex_grid
-#' @param rds (sf object) osm roads sf object 
+#' @param rds (sf object) OSM roads sf object 
 #
 #' @return vector of total road length in meters that is the same length as the number of rows in the grid sf object
 #'

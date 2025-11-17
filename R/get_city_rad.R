@@ -6,7 +6,7 @@
 #' @param city (city) string of city name for selection from `maps::world.cities` dataset in `maps`
 #' @param radius (radius) integer of radius in meters
 #'
-#' @return (sfc) sf polgon simple feature collection of 1 feature with WGS 84 CRS
+#' @return (sfc) sf polygon simple feature collection of 1 feature with WGS 84 CRS
 #'
 #' @export
 #'
