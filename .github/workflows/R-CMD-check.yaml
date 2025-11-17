@@ -42,8 +42,47 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: |
+            any::rcmdcheck
+            any::covr
+            any::lintr
+            any::styler
+            any::spelling
           needs: check
+
+      - name: Lint
+        run: lintr::lint_package()
+        shell: Rscript {0}
+
+      - name: Style
+        run: styler::style_pkg(dry = "fail")
+        shell: Rscript {0}
+
+      - name: Spell check
+        run: |
+          pkg_name <- pkgload::pkg_name()
+          # add common, non-English words to a temporary dictionary
+          dict_file <- tempfile()
+          writeLines(c("uRbano", "raster", "terra", "sf", "rgb"), dict_file)
+          spelling::spell_check_files(
+            list.files(
+              c("R", "vignettes"),
+              pattern = "\\.(R|Rmd)$",
+              full.names = TRUE,
+              recursive = TRUE
+            ),
+            ignore = spelling::get_wordlist(
+              pkg = file.path(pkg_name),
+              vignettes = TRUE,
+              wordlist = dict_file
+            )
+          )
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+
+      - name: Test coverage
+        run: covr::codecov()
+        shell: Rscript {0}
