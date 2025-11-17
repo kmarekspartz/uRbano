@@ -3,7 +3,7 @@
 #' @description takes the result of radius_hex_grid and extract_osm_rds to sum the length of road segments in meters within each hexagon of the grid
 #'
 #' @param grid (sf object) output of radius_hex_grid
-#' @param rds (sf object) OSM roads sf object 
+#' @param rds (sf object) OSM roads sf object
 #
 #' @return vector of total road length in meters that is the same length as the number of rows in the grid sf object
 #'
@@ -15,28 +15,30 @@
 #' # rd_lens<-uRbano::calculate_rds_by_grid(Rgrid, rds)
 #' # add column for road length to the hex grid
 #' # Rgrid<-Rgrid %>% dplyr::mutate(rd_lens=rd_lens)
-#' 
+#'
 calculate_rds_by_grid <- function(grid, rds) {
   # Ensure parameters are sf objects
   if (!inherits(grid, "sf") || !inherits(rds, "sf")) {
     stop("Both grid and roads must be sf objects")
   }
-  
-  #ensure parameters have same CRS
+
+  # ensure parameters have same CRS
   if ((terra::crs(grid)) != (terra::crs(rds))) {
     stop("Both grid and roads must be transformed to same UTM zone, use transform_US_utm()")
   }
-  
-  grid<-grid%>%dplyr::mutate(ID=rownames(grid))
-  
-  
-  rd_clips <-sf::st_intersection(grid, rds)
-  
-  rd_clips <- rd_clips%>%dplyr::mutate(rd_len=sf::st_length(rd_clips))
-  sumlen<-rd_clips%>%dplyr::group_by(ID)%>%dplyr::summarise(tlen=sum(rd_len))
-  
-  rd_jn<-dplyr::left_join(grid, sf::st_drop_geometry(sumlen), by="ID")
-  
+
+  grid <- grid %>% dplyr::mutate(ID = rownames(grid))
+
+
+  rd_clips <- sf::st_intersection(grid, rds)
+
+  rd_clips <- rd_clips %>% dplyr::mutate(rd_len = sf::st_length(rd_clips))
+  sumlen <- rd_clips %>%
+    dplyr::group_by(ID) %>%
+    dplyr::summarise(tlen = sum(rd_len))
+
+  rd_jn <- dplyr::left_join(grid, sf::st_drop_geometry(sumlen), by = "ID")
+
   # Return as a numeric vector
   return(units::drop_units(rd_jn$tlen))
 }

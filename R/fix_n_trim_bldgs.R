@@ -12,27 +12,21 @@
 #' @examples
 #' # fix invalid geometries and clip building footprints to city radius
 #' # blds<-uRbano::fix_n_trim_bldgs(blds, rad)
-
-
-fix_n_trim_bldgs<-function(blds, rad){
-  
-  cty_ex<-terra::ext(rad)
-  bbox <- sf::st_bbox(cty_ex, crs = 4326) 
+fix_n_trim_bldgs <- function(blds, rad) {
+  cty_ex <- terra::ext(rad)
+  bbox <- sf::st_bbox(cty_ex, crs = 4326)
   bbox_sf <- sf::st_as_sfc(bbox)
-  sf::sf_use_s2(FALSE) #turn off spherical geometry
-  blds<-sf::st_filter(blds, bbox_sf)
+  sf::sf_use_s2(FALSE) # turn off spherical geometry
+  blds <- sf::st_filter(blds, bbox_sf)
   gc()
-  
-  invalid_geometries <- blds[!sf::st_is_valid(blds), ] 
-  if(nrow(invalid_geometries)>0){
-    x_blds<-as.numeric(rownames(invalid_geometries))
-    blds<-blds[-c(x_blds),]
+
+  invalid_geometries <- blds[!sf::st_is_valid(blds), ]
+  if (nrow(invalid_geometries) > 0) {
+    x_blds <- as.numeric(rownames(invalid_geometries))
+    blds <- blds[-c(x_blds), ]
     sf::sf_use_s2(TRUE)
-  }else{
+  } else {
     sf::sf_use_s2(TRUE)
     return(blds)
   }
 }
-
-
-

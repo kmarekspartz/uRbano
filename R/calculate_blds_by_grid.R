@@ -3,7 +3,7 @@
 #' @description takes the result of radius_hex_grid and get_bldgs to sum the area of building footprints (not including height info) in meters within each hexagon of the grid
 #'
 #' @param grid (sf object) output of radius_hex_grid
-#' @param blds (sf object) building footprints sf object 
+#' @param blds (sf object) building footprints sf object
 #
 #' @return vector of total building area in meters that is the same length as the number of rows in the grid sf object
 #'
@@ -14,29 +14,31 @@
 #' # bld_ars<-uRbano::calculate_blds_by_grid(Rgrid, blds)
 #' # add column for building area to the hex grid
 #' # Rgrid<-Rgrid %>% dplyr::mutate(bld_ars=bld_ars)
-#' 
-calculate_blds_by_grid<-function(grid, blds){
+#'
+calculate_blds_by_grid <- function(grid, blds) {
   if (!inherits(grid, "sf") || !inherits(blds, "sf")) {
     stop("Both grid and roads must be sf objects")
   }
-  
-  #ensure parameters have same CRS
+
+  # ensure parameters have same CRS
   if ((terra::crs(grid)) != (terra::crs(blds))) {
     stop("Both grid and roads must be transformed to same UTM zone, use transform_US_utm()")
   }
-  
-  
-  grid<-grid%>%dplyr::mutate(ID=rownames(grid))
-  
-  
-  bld_clips <-sf::st_intersection(grid, blds)
-  
-  bld_clips <- bld_clips%>%dplyr::mutate(area=sf::st_area(bld_clips))
-  sumars<-bld_clips%>%dplyr::group_by(ID)%>%dplyr::summarise(tarea=sum(area))
-  
-  bld_jn<-dplyr::left_join(grid, sf::st_drop_geometry(sumars), by="ID")
-  
-  
+
+
+  grid <- grid %>% dplyr::mutate(ID = rownames(grid))
+
+
+  bld_clips <- sf::st_intersection(grid, blds)
+
+  bld_clips <- bld_clips %>% dplyr::mutate(area = sf::st_area(bld_clips))
+  sumars <- bld_clips %>%
+    dplyr::group_by(ID) %>%
+    dplyr::summarise(tarea = sum(area))
+
+  bld_jn <- dplyr::left_join(grid, sf::st_drop_geometry(sumars), by = "ID")
+
+
   # Return as a numeric vector
   return(units::drop_units(bld_jn$tarea))
 }
