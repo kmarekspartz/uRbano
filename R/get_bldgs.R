@@ -98,8 +98,8 @@ get_bldgs <- function(region1, region2 = NULL) {
       }
       foots <- sf::st_read(utils::unzip(infile1))
       unlink(infile1)
-    } else if (region %in% all_regions$Location) {
-      fts <- all_regions %>% dplyr::filter(Location == region)
+    } else if (region %in% all_regions$location) {
+      fts <- all_regions %>% dplyr::filter(location == region)
       foot_urls <- list()
       # Loop through the URLs and read each CSV
       for (url in fts$Url) {

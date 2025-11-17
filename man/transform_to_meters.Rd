@@ -4,13 +4,13 @@
 \alias{transform_to_meters}
 \title{transform coordinate reference system to meters datum}
 \usage{
-transform_to_meters(sf_data, method = "web_mercator")
+transform_to_meters(sf_data, method = "web-mercator")
 }
 \arguments{
 \item{sf_data}{(sf object) sf object to transform}
 
 \item{method}{(string) string that represents CRS transformation to perform:
-"web_mercator" for EPSG 3857, "NAD" for NAD 83}
+"web-mercator" for EPSG 3857, "NAD" for NAD 83}
 }
 \value{
 sf object with modified CRS
