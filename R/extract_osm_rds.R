@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # result from get_city_radius
-#' rad <- uRbano::get_city_radius("Minneapolis", 30000)
+#' rad <- uRbano::get_city_rad("Minneapolis", 30000)
 #' # Count difference in all values between the two
 #' uRbano::extract_osm_rds(city_radius = rad)
 #'
