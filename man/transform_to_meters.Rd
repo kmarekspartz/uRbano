@@ -4,18 +4,22 @@
 \alias{transform_to_meters}
 \title{transform coordinate reference system to meters datum}
 \usage{
-transform_to_meters(sf_data, method = "web_mercator")
+transform_to_meters(sf_data, method = "web-mercator")
 }
 \arguments{
 \item{sf_data}{(sf object) sf object to transform}
 
-\item{method}{(string) string that represents CRS transformation to perform: "web-mercator" for EPSG 3857, "NAD" for NAD 83}
+\item{method}{(string) string that represents CRS transformation to perform:
+"web-mercator" for EPSG 3857, "NAD" for NAD 83}
 }
 \value{
 sf object with modified CRS
 }
 \description{
-Optional but recommended, transform buildings, roads and city radius features to meters datum with either Web Mercator EPSG 3857 or look up NAD 83 UTM zone to extract projection from the sf object parameter if spatial features are in North America
+Optional but recommended, transform buildings, roads and city
+radius features to meters datum with either Web Mercator EPSG 3857 or look
+up NAD 83 UTM zone to extract projection from the sf object parameter if
+spatial features are in North America
 }
 \examples{
 # transform to NAD 83 meters UTM

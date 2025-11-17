@@ -7,27 +7,33 @@
 get_bldgs(region1, region2 = NULL)
 }
 \arguments{
-\item{region1}{(string) character string of region to look up in online building footprint releases}
+\item{region1}{(string) character string of region to look up in online
+building footprint releases}
 
 \item{region2}{(string) optional second string}
 }
 \value{
-large simple features object of polygons representing building footprints. If region2 is in another country, a list containing two sf objects is returned
+large simple features object of polygons representing building
+footprints. If region2 is in another country, a list containing two sf
+objects is returned
 }
 \description{
-takes user input as a string of the region or two regions - for border cities - to extract building footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net.
+takes user input as a string of the region or two regions -
+for border cities - to extract building footprint data from Microsoft's
+ML Building Footprints released under ODbL license:
+https://minedbuildings.z5.web.core.windows.net.
 }
 \examples{
 # get building footprints for US state
-# blds<-uRbano::get_bldgs(region1="North Dakota")
+# blds <- uRbano::get_bldgs(region1="North Dakota")
 # get building footprints for two US states
-# blds<-uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
+# blds <- uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
 # get building footprints for Canadian province
-# blds<-uRbano::getbldgs(region1="Manitoba")
+# blds <- uRbano::get_bldgs(region1="Manitoba")
 # get buildings for country or other territories
-# blds<-uRbano::get_bldgs(region1="PuertoRico")
+# blds <- uRbano::get_bldgs(region1="PuertoRico")
 # two regions from different countries
-# blds<-uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
-# ND<-blds$region1
-# MB<-blds$region2
+# blds <- uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
+# nd <- blds$region1
+# mb <- blds$region2
 }

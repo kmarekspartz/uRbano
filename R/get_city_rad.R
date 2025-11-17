@@ -1,9 +1,13 @@
 #' @title Get city and create radius in meters
 #'
-#' @description subsets user input city name from `maps::world.cities` dataset in `maps` and creates a radius around the city center coordinates in specified
-# meters. if more than one city is found, a numbered list will be returned with information on city's country and population for the user to specify their selection by number
+#' @description subsets user input city name from `maps::world.cities` dataset
+#' in `maps` and creates a radius around the city center coordinates in specified
+# meters. if more than one city is found, a numbered list will be returned with
+# information on city's country and population for the user to specify their
+# selection by number
 #'
-#' @param city (city) string of city name for selection from `maps::world.cities` dataset in `maps`
+#' @param city (city) string of city name for selection from `maps::world.cities`
+#' dataset in `maps`
 #' @param radius (radius) integer of radius in meters
 #'
 #' @return (sfc) sf polygon simple feature collection of 1 feature with WGS 84 CRS
@@ -28,7 +32,7 @@ get_city_rad <- function(city, radius) {
   # Handle case where multiple cities are found
   if (nrow(cty) > 1) {
     cat("Multiple cities found:\n")
-    for (i in 1:nrow(cty)) {
+    for (i in seq_len(nrow(cty))) {
       cat(sprintf(
         "%d: %s, %s (Pop: %s)\n",
         i,
@@ -54,7 +58,5 @@ get_city_rad <- function(city, radius) {
 
   # Convert to sf object and create buffer
   cty_coords <- sf::st_as_sf(cty, coords = c("long", "lat"), crs = 4326)
-  cty_crc <- sf::st_buffer(cty_coords, radius)
-
-  return(cty_crc)
+  sf::st_buffer(cty_coords, radius)
 }

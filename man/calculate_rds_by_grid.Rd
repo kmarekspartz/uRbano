@@ -15,12 +15,13 @@ calculate_rds_by_grid(grid, rds)
 vector of total road length in meters that is the same length as the number of rows in the grid sf object
 }
 \description{
-takes the result of radius_hex_grid and extract_osm_rds to sum the length of road segments in meters within each hexagon of the grid
+takes the result of radius_hex_grid and extract_osm_rds to sum
+the length of road segments in meters within each hexagon of the grid
 }
 \examples{
 # calculate the summed length of road segments per each 1km hexagon in the grid
-# rd_lens<-uRbano::calculate_rds_by_grid(Rgrid, rds)
+# rd_lens <- uRbano::calculate_rds_by_grid(r_grid, rds)
 # add column for road length to the hex grid
-# Rgrid<-Rgrid \%>\% dplyr::mutate(rd_lens=rd_lens)
+# r_grid <- r_grid \%>\% dplyr::mutate(rd_lens = rd_lens)
 
 }

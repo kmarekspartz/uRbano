@@ -42,17 +42,17 @@ blds <- st_transform(blds, crs = st_crs(rad))
 rds <- st_transform(rds, crs = st_crs(rad))
 
 # Create a hexagonal grid
-Rgrid <- radius_hex_grid(rad, 1000)
+r_grid <- radius_hex_grid(rad, 1000)
 
 # Calculate road lengths and building areas by grid cell
-rd_lens <- calculate_rds_by_grid(Rgrid, rds)
-bld_ars <- calculate_blds_by_grid(Rgrid, blds)
+rd_lens <- calculate_rds_by_grid(r_grid, rds)
+bld_ars <- calculate_blds_by_grid(r_grid, blds)
 
 # Combine into a density index
 bld_ars[is.na(bld_ars)] <- 0
 rd_lens[is.na(rd_lens)] <- 0
 
-R_grid <- Rgrid %>%
+r_grid <- r_grid %>%
   mutate(rd_len = rd_lens, bldg_ars = bld_ars) %>%
   mutate(
     rd_lvls = cut(rd_len, 5, labels = 1:5),
@@ -61,7 +61,7 @@ R_grid <- Rgrid %>%
   mutate(dens_dex = as.numeric(rd_lvls) + as.numeric(bldg_lvls))
 
 # Plot the density index
-ggplot(data = R_grid, aes(fill = dens_dex, color = dens_dex)) +
+ggplot(data = r_grid, aes(fill = dens_dex, color = dens_dex)) +
   geom_sf() +
   scale_fill_viridis_b()
 ```
