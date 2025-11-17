@@ -42,8 +42,39 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: |
+            any::rcmdcheck
+            any::covr
+            any::lintr
+            any::styler
+            any::spelling
+            any::roxygen2
           needs: check
+
+      - name: Style
+        run: styler::style_pkg(dry = "fail")
+        shell: Rscript {0}
+
+      - name: Lint
+        run: lintr::lint_package()
+        shell: Rscript {0}
+
+      - name: Spell check
+        run: |
+          spelling::spell_check_files(
+            list.files(
+              c("R", "vignettes"),
+              pattern = "\\.(R|Rmd)$",
+              full.names = TRUE,
+              recursive = TRUE
+            )
+          )
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+
+      - name: Test coverage
+        run: print(covr::package_coverage())
+        shell: Rscript {0}
