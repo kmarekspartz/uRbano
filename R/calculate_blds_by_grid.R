@@ -16,6 +16,8 @@
 #' # Rgrid<-Rgrid %>% dplyr::mutate(bld_ars=bld_ars)
 #'
 calculate_blds_by_grid <- function(grid, blds) {
+  ID <- NULL
+  area <- NULL
   if (!inherits(grid, "sf") || !inherits(blds, "sf")) {
     stop("Both grid and roads must be sf objects")
   }

@@ -14,6 +14,7 @@
 #' # Rgrid<-uRbano::radius_hex_grid(rad, 1000)
 #'
 radius_hex_grid <- function(radius, hex_size) {
+  pred <- NULL
   if (sf::st_crs(radius)$epsg == 4326) {
     gr <- sf::st_make_grid(
       radius,
