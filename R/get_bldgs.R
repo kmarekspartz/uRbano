@@ -13,7 +13,7 @@
 #' footprints. If region2 is in another country, a list containing two sf
 #' objects is returned
 #'
-#' @importFrom magrittr %>%
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 #' @examples

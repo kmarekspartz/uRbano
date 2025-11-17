@@ -11,7 +11,7 @@
 #' @return sf object of hexagon mesh with hexagons on the edge of the radius
 #' retained, not clipped
 #'
-#' @importFrom magrittr %>%
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 #' @examples
