@@ -25,7 +25,8 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     class,
-    KernSmooth
+    KernSmooth,
+    rmarkdown
 URL: https://github.com/MSP-LTER/uRbano
 BugReports: https://github.com/MSP-LTER/uRbano/issues
 Config/testthat/edition: 3
