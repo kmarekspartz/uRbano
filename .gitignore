@@ -8,3 +8,6 @@
 /R_libs/
 inst/doc
 docs
+.httr-oauth
+.DS_Store
+.quarto
