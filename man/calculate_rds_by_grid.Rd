@@ -9,7 +9,7 @@ calculate_rds_by_grid(grid, rds)
 \arguments{
 \item{grid}{(sf object) output of radius_hex_grid}
 
-\item{rds}{(sf object) osm roads sf object}
+\item{rds}{(sf object) OSM roads sf object}
 }
 \value{
 vector of total road length in meters that is the same length as the number of rows in the grid sf object

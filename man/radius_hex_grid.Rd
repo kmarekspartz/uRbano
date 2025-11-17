@@ -21,5 +21,4 @@ uses sf::st_make_grid to produce an sf object of a hexagon mesh across the speci
 # create grid of 1km hexagons across 'rad' polygon
 # Rgrid<-uRbano::radius_hex_grid(rad, 1000)
 
-
 }

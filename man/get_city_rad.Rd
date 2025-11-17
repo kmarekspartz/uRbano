@@ -12,7 +12,7 @@ get_city_rad(city, radius)
 \item{radius}{(radius) integer of radius in meters}
 }
 \value{
-(sfc) sf polgon simple feature collection of 1 feature with WGS 84 CRS
+(sfc) sf polygon simple feature collection of 1 feature with WGS 84 CRS
 }
 \description{
 subsets user input city name from \code{maps::world.cities} dataset in \code{maps} and creates a radius around the city center coordinates in specified
@@ -20,6 +20,6 @@ subsets user input city name from \code{maps::world.cities} dataset in \code{map
 \examples{
 # provide city name as a string and number of meters for radius from coordinates of city center
 ## 30km radius polygon for Minneapois USA
-uRbano::get_city_rad(city="Minneapolis", radius=30000)
+uRbano::get_city_rad(city = "Minneapolis", radius = 30000)
 
 }

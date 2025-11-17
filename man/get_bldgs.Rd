@@ -7,7 +7,7 @@
 get_bldgs(region1, region2 = NULL)
 }
 \arguments{
-\item{region1}{(string) character string of region to look up in online building footprint resealses}
+\item{region1}{(string) character string of region to look up in online building footprint releases}
 
 \item{region2}{(string) optional second string}
 }
@@ -15,12 +15,12 @@ get_bldgs(region1, region2 = NULL)
 large simple features object of polygons representing building footprints. If region2 is in another country, a list containing two sf objects is returned
 }
 \description{
-takes user input as a string of the region or two regions - for border cities - to extract builing footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net.
+takes user input as a string of the region or two regions - for border cities - to extract building footprint data from Microsoft's ML Building Footprints released under ODbL license: https://minedbuildings.z5.web.core.windows.net.
 }
 \examples{
 # get building footprints for US state
 # blds<-uRbano::get_bldgs(region1="North Dakota")
-#get building footprints for two US states
+# get building footprints for two US states
 # blds<-uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
 # get building footprints for Canadian province
 # blds<-uRbano::getbldgs(region1="Manitoba")

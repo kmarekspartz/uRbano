@@ -15,11 +15,10 @@ transform_to_meters(sf_data, method = "web_mercator")
 sf object with modified CRS
 }
 \description{
-Optional but recommended, transform buildings, roads and city radius features to meters datum with either web mercator EPSG 3857 or look up NAD 83 UTM zone to extract projection from the sf object parameter if spatial features are in North America
+Optional but recommended, transform buildings, roads and city radius features to meters datum with either Web Mercator EPSG 3857 or look up NAD 83 UTM zone to extract projection from the sf object parameter if spatial features are in North America
 }
 \examples{
 # transform to NAD 83 meters UTM
 # rad<- uRbano::transform_to_meters(rad, method="NAD")
-
 
 }
