@@ -1,9 +1,10 @@
 #' @title Get city and create radius in meters
 #'
-#' @description subsets user input city name from `world.cities` dataset in `maps` and creates a radius around the city center coordinates in specified
+#' @description subsets user input city name from `maps::world.cities` dataset in `maps` and creates a radius around the city center coordinates in specified
 #meters. if more than one city is found, a numbered list will be returned with information on city's country and population for the user to specify their selection by number
 #'
-#' @param city (city) string of city name for selection from `world.cities` dataset in `maps`
+#' @param city (city) string of city name for selection from `maps::world.cities` dataset in `maps`
+#' @param radius (radius) integer of radius in meters
 #'
 #' @return (sfc) sf polgon simple feature collection of 1 feature with WGS 84 CRS
 #'
@@ -12,12 +13,12 @@
 #' @examples
 #' # provide city name as a string and number of meters for radius from coordinates of city center
 #' ## 30km radius polygon for Minneapois USA
-#' # uRbano::get_city_rad(city="Minneapolis", radius=30000)
+#' uRbano::get_city_rad(city="Minneapolis", radius=30000)
 #'
 #function to create a radius around user-specified city center
 get_city_rad <- function(city, radius) {
   # Find matching cities
-  cty <- subset(world.cities, world.cities$name == city)
+  cty <- subset(maps::world.cities, maps::world.cities$name == city)
   
   # Handle case where no cities are found
   if(nrow(cty) == 0) {

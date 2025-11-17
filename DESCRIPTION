@@ -15,7 +15,12 @@ Imports:
     terra,
     magrittr,
     sf,
-    dplyr
+    dplyr,
+    units,
+    osmdata,
+    geojsonsf,
+    readr,
+    utils
 Suggests:
     knitr,
     testthat (>= 3.0.0),

@@ -33,7 +33,7 @@ get_bldgs<-function(region1, region2=NULL){
   }
   USstates<-gsub("\\b([a-z])", "\\U\\1", c(unique(sub(":.*", "", maps::state.fips$polyname)),"alaska", "hawaii"), perl = TRUE)
   Ca<-c("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon")
-  all_regions<-read.table("https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv", header = TRUE, sep = ",")
+  all_regions<-utils::read.table("https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv", header = TRUE, sep = ",")
   #use helper function get_blds_by_regions to run multiple times in the event there are two regions
   get_blds_by_regions<-function(region){
     if(region %in% USstates){
@@ -41,28 +41,28 @@ get_bldgs<-function(region1, region2=NULL){
       ft_link<-paste0("https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/", region, ".geojson.zip")
       message(paste("getting building footprints from",ft_link))
       infile1 <- tempfile()
-      try(download.file(ft_link,infile1,method="curl"))
-      if (is.na(file.size(infile1))) download.file(ft_link,infile1,method="auto")
-      foots<-sf::st_read(unzip(infile1))
+      try(utils::download.file(ft_link,infile1,method="curl"))
+      if (is.na(file.size(infile1))) utils::download.file(ft_link,infile1,method="auto")
+      foots<-sf::st_read(utils::unzip(infile1))
       unlink(infile1)
     }else if(region %in% Ca){
       region<-gsub(" ", "", region)
       ft_link<-paste0("https://minedbuildings.z5.web.core.windows.net/legacy/canadian-buildings-v2/", region, ".zip")
       message(paste("getting building footprints from",ft_link))
       infile1 <- tempfile()
-      try(download.file(ft_link,infile1,method="curl"))
-      if (is.na(file.size(infile1))) download.file(ft_link,infile1,method="auto")
-      foots<-sf::st_read(unzip(infile1))
+      try(utils::download.file(ft_link,infile1,method="curl"))
+      if (is.na(file.size(infile1))) utils::download.file(ft_link,infile1,method="auto")
+      foots<-sf::st_read(utils::unzip(infile1))
       unlink(infile1)
     }else if(region %in% all_regions$Location){
       fts<-all_regions%>%dplyr::filter(Location==region)
       foot_urls <- list()
       # Loop through the URLs and read each CSV
       for (url in fts$Url) {
-        foot_urls[[url]] <- read_csv2(url, col_names = FALSE)
+        foot_urls[[url]] <- readr::read_csv2(url, col_names = FALSE)
       }
       combined_foots <- do.call(rbind, foot_urls)
-      cnty_fts<-geojson_sfc(combined_foots$X1)
+      cnty_fts<-geojsonsf::geojson_sfc(combined_foots$X1)
       foots<-sf::st_as_sf(cnty_fts, crs=4326)
     }else{warning("cannot find buildings for that region")}
     #ft_link<-paste0("https://minedbuildings.z5.web.core.windows.net/legacy/usbuildings-v2/", state, ".geojson.zip")
