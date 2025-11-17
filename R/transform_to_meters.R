@@ -20,7 +20,7 @@ transform_to_meters <- function(sf_data, method = "web_mercator") {
     transform_NAD_utm <- function(rad) {
       longitude <- sf::st_coordinates(sf::st_centroid(rad))[, 1]
       if (longitude >= (-126) && longitude < (-120)) {
-        print("z10")
+        return(sf::st_transform(rad, crs = 26910))
       } else if (longitude >= (-120) && longitude < (-114)) {
         return(sf::st_transform(rad, crs = 26911))
       } else if (longitude >= (-114) && longitude < (-108)) {
