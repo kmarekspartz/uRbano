@@ -11,6 +11,7 @@
 #' OSM key "highway" from within extent of given polygon argument
 #'
 #' @importFrom terra ext
+#' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
