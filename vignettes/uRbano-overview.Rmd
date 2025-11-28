@@ -25,43 +25,43 @@ library(uRbano)
 library(ggplot2)
 
 # Get a 30km radius around San Juan
-city_radius <- get_city_radius("San Juan", 30000)
+rad <- get_city_rad("San Juan", 30000)
 
 # Extract OpenStreetMap roads within the radius
-roads <- extract_osm_roads(city_radius)
+rds <- extract_osm_rds(rad)
 
 # Get building footprints for Puerto Rico
-buildings <- get_buildings("PuertoRico")
+blds <- get_bldgs("PuertoRico")
 
 # Trim and fix building geometries
-buildings <- fix_and_trim_buildings(buildings, city_radius)
+blds <- fix_n_trim_bldgs(blds, rad)
 
 # Transform the data to meters
-city_radius <- transform_crs_to_meters(city_radius, method = "NAD")
-buildings <- st_transform(buildings, crs = st_crs(city_radius))
-roads <- st_transform(roads, crs = st_crs(city_radius))
+rad <- transform_to_meters(rad, method = "NAD")
+blds <- st_transform(blds, crs = st_crs(rad))
+rds <- st_transform(rds, crs = st_crs(rad))
 
 # Create a hexagonal grid
-hexagonal_grid <- create_hexagonal_grid(city_radius, 1000)
+r_grid <- radius_hex_grid(rad, 1000)
 
 # Calculate road lengths and building areas by grid cell
-road_lengths <- calculate_roads_by_grid(hexagonal_grid, roads)
-building_areas <- calculate_buildings_by_grid(hexagonal_grid, buildings)
+rd_lens <- calculate_rds_by_grid(r_grid, rds)
+bld_ars <- calculate_blds_by_grid(r_grid, blds)
 
 # Combine into a density index
-building_areas[is.na(building_areas)] <- 0
-road_lengths[is.na(road_lengths)] <- 0
+bld_ars[is.na(bld_ars)] <- 0
+rd_lens[is.na(rd_lens)] <- 0
 
-hexagonal_grid <- hexagonal_grid %>%
-  mutate(road_length = road_lengths, building_areas = building_areas) %>%
+r_grid <- r_grid %>%
+  mutate(rd_len = rd_lens, bldg_ars = bld_ars) %>%
   mutate(
-    road_levels = cut(road_length, 5, labels = 1:5),
-    building_levels = cut(building_areas, 5, labels = 1:5)
+    rd_lvls = cut(rd_len, 5, labels = 1:5),
+    bldg_lvls = cut(bldg_ars, 5, labels = 1:5)
   ) %>%
-  mutate(density_index = as.numeric(road_levels) + as.numeric(building_levels))
+  mutate(dens_dex = as.numeric(rd_lvls) + as.numeric(bldg_lvls))
 
 # Plot the density index
-ggplot(data = hexagonal_grid, aes(fill = density_index, color = density_index)) +
+ggplot(data = r_grid, aes(fill = dens_dex, color = dens_dex)) +
   geom_sf() +
   scale_fill_viridis_b()
 ```
