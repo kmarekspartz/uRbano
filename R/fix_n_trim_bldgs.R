@@ -1,11 +1,16 @@
 #' @title trim building footprints to a smaller extent and remove invalid geometries
 #'
-#' @description OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a radius and dplyr::filter out invalid geometries to avoid errors in calculating terra::area
+#' @description OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a
+#' radius and dplyr::filter out invalid geometries to avoid errors in
+#' calculating terra::area
 #'
 #' @param blds (sfc) large simple features collection of polygons, output of get_bldgs
-#' @param rad (polygon) output of get_city_rad or another extent to clip the building footprints to
+#' @param rad (polygon) output of get_city_rad or another extent to clip the
+#' building footprints to
 #
-#' @return large simple features object of polygons representing building footprints in invalid geometries omitted and trimmed to the extent of the second parameter, rad
+#' @return large simple features object of polygons representing building
+#' footprints in invalid geometries omitted and trimmed to the extent of the
+#' second parameter, rad
 #'
 #' @export
 #'
@@ -24,9 +29,7 @@ fix_n_trim_bldgs <- function(blds, rad) {
   if (nrow(invalid_geometries) > 0) {
     x_blds <- as.numeric(rownames(invalid_geometries))
     blds <- blds[-c(x_blds), ]
-    sf::sf_use_s2(TRUE)
-  } else {
-    sf::sf_use_s2(TRUE)
-    return(blds)
   }
+  sf::sf_use_s2(TRUE)
+  blds
 }

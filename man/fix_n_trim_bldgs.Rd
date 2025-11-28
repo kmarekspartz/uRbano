@@ -9,13 +9,18 @@ fix_n_trim_bldgs(blds, rad)
 \arguments{
 \item{blds}{(sfc) large simple features collection of polygons, output of get_bldgs}
 
-\item{rad}{(polygon) output of get_city_rad or another extent to clip the building footprints to}
+\item{rad}{(polygon) output of get_city_rad or another extent to clip the
+building footprints to}
 }
 \value{
-large simple features object of polygons representing building footprints in invalid geometries omitted and trimmed to the extent of the second parameter, rad
+large simple features object of polygons representing building
+footprints in invalid geometries omitted and trimmed to the extent of the
+second parameter, rad
 }
 \description{
-OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a radius and dplyr::filter out invalid geometries to avoid errors in calculating terra::area
+OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a
+radius and dplyr::filter out invalid geometries to avoid errors in
+calculating terra::area
 }
 \examples{
 # fix invalid geometries and clip building footprints to city radius
