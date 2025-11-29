@@ -37,7 +37,6 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
   check-r-package:
     runs-on: ${{ matrix.config.os }}
-    runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
     needs: [setup]
     steps:
