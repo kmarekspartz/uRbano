@@ -5,7 +5,7 @@
 #' approximate meters given for the width of the hexagons to decimal degrees
 #'
 #' @param radius (sf object) sf object, usually radius of a city from
-#' get_city_rad, but could be another sf object
+#' get_city_radius, but could be another sf object
 #' @param hex_size (numeric) number of meters across that each hex cell should be
 #
 #' @return sf object of hexagon mesh with hexagons on the edge of the radius
@@ -24,14 +24,14 @@ radius_hex_grid <- function(radius, hex_size) {
     gr <- sf::st_make_grid(
       radius,
       square = FALSE,
-      cellsize = (hex_size / 111000)
+      cell_size = (hex_size / 111000)
     ) %>%
       sf::st_sf()
     warning(
       "converting hex size to units of lat/lon, size is approximate conversion to meters"
     )
   } else {
-    gr <- sf::st_make_grid(radius, square = FALSE, cellsize = hex_size) %>%
+    gr <- sf::st_make_grid(radius, square = FALSE, cell_size = hex_size) %>%
       sf::st_sf()
   }
   # get predicate for where hexes intersect so they don't get cut off at the border

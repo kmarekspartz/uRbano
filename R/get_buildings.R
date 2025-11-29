@@ -18,19 +18,19 @@
 #'
 #' @examples
 #' # get building footprints for US state
-#' # blds <- uRbano::get_bldgs(region1="North Dakota")
+#' # buildings <- uRbano::get_buildings(region1="North Dakota")
 #' # get building footprints for two US states
-#' # blds <- uRbano::get_bldgs(region1="North Dakota", region2="Minnesota")
+#' # buildings <- uRbano::get_buildings(region1="North Dakota", region2="Minnesota")
 #' # get building footprints for Canadian province
-#' # blds <- uRbano::get_bldgs(region1="Manitoba")
+#' # buildings <- uRbano::get_buildings(region1="Manitoba")
 #' # get buildings for country or other territories
-#' # blds <- uRbano::get_bldgs(region1="PuertoRico")
+#' # buildings <- uRbano::get_buildings(region1="PuertoRico")
 #' # two regions from different countries
-#' # blds <- uRbano::get_bldgs(region1 = "North Dakota", region2="Manitoba")
-#' # nd <- blds$region1
-#' # mb <- blds$region2
+#' # buildings <- uRbano::get_buildings(region1 = "North Dakota", region2="Manitoba")
+#' # nd <- buildings$region1
+#' # mb <- buildings$region2
 # if in US use this source, need to add user input to change the state file
-get_bldgs <- function(region1, region2 = NULL) {
+get_buildings <- function(region1, region2 = NULL) {
   if (region1 == "UnitedStates") {
     stop(
       "You are going to want to use individual US states as inputs, trust me on this one :)"
@@ -65,8 +65,8 @@ get_bldgs <- function(region1, region2 = NULL) {
     header = TRUE,
     sep = ","
   )
-  # use helper function get_blds_by_region to run multiple times in the event there are two regions
-  get_blds_by_region <- function(region) {
+  # use helper function get_buildings_by_region to run multiple times in the event there are two regions
+  get_buildings_by_region <- function(region) {
     location <- NULL
     if (region %in% us_states) {
       region <- gsub(" ", "", region)
@@ -116,7 +116,7 @@ get_bldgs <- function(region1, region2 = NULL) {
 
   # Download first region
   # try catch to return separate results if rbind fails
-  foots1 <- get_blds_by_region(region1)
+  foots1 <- get_buildings_by_region(region1)
 
   # If second region is specified, download and bind
   if (!is.null(region2)) {
@@ -132,7 +132,7 @@ get_bldgs <- function(region1, region2 = NULL) {
       )
       return(foots1)
     }
-    foots2 <- get_blds_by_region(region2)
+    foots2 <- get_buildings_by_region(region2)
 
     # Bind the two datasets together
     tryCatch(

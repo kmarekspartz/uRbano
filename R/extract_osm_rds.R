@@ -15,20 +15,20 @@
 #' @export
 #'
 #' @examples
-#' # result from get_city_radius
-#' rad <- uRbano::get_city_rad("Minneapolis", 30000)
+#' # result from get_city_radiusius
+#' rad <- uRbano::get_city_radius("Minneapolis", 30000)
 #' # Count difference in all values between the two
-#' uRbano::extract_osm_rds(city_radius = rad)
+#' uRbano::extract_osm_roads(city_radius = rad)
 #'
 # function to get OSM roads from overpass API for the extent extracted from the city radius
-extract_osm_rds <- function(city_radius) {
+extract_osm_roads <- function(city_radius) {
   if (sf::st_crs(city_radius)$epsg != 4326) {
     city_radius <- sf::st_transform(city_radius, crs = 4326)
   }
   cty_ex <- terra::ext(city_radius)
 
   # get roads from OSM API
-  rds <- osmdata::opq(bbox = c(cty_ex[1], cty_ex[3], cty_ex[2], cty_ex[4])) %>%
+  roads <- osmdata::opq(bbox = c(cty_ex[1], cty_ex[3], cty_ex[2], cty_ex[4])) %>%
     osmdata::add_osm_feature(
       key = "highway",
       value = c(
@@ -50,5 +50,5 @@ extract_osm_rds <- function(city_radius) {
       )
     ) %>%
     osmdata::osmdata_sf()
-  rds$osm_lines
+  roads$osm_lines
 }

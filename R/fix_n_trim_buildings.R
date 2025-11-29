@@ -4,8 +4,8 @@
 #' radius and dplyr::filter out invalid geometries to avoid errors in
 #' calculating terra::area
 #'
-#' @param blds (sfc) large simple features collection of polygons, output of get_bldgs
-#' @param rad (polygon) output of get_city_rad or another extent to clip the
+#' @param buildings (sfc) large simple features collection of polygons, output of get_buildings
+#' @param rad (polygon) output of get_city_radius or another extent to clip the
 #' building footprints to
 #
 #' @return large simple features object of polygons representing building
@@ -16,20 +16,20 @@
 #'
 #' @examples
 #' # fix invalid geometries and clip building footprints to city radius
-#' # blds<-uRbano::fix_n_trim_bldgs(blds, rad)
-fix_n_trim_bldgs <- function(blds, rad) {
+#' # buildings<-uRbano::fix_n_trim_buildings(buildings, rad)
+fix_n_trim_buildings <- function(buildings, rad) {
   cty_ex <- terra::ext(rad)
   bbox <- sf::st_bbox(cty_ex, crs = 4326)
   bbox_sf <- sf::st_as_sfc(bbox)
   sf::sf_use_s2(FALSE) # turn off spherical geometry
-  blds <- sf::st_filter(blds, bbox_sf)
+  buildings <- sf::st_filter(buildings, bbox_sf)
   gc()
 
-  invalid_geometries <- blds[!sf::st_is_valid(blds), ]
+  invalid_geometries <- buildings[!sf::st_is_valid(buildings), ]
   if (nrow(invalid_geometries) > 0) {
-    x_blds <- as.numeric(rownames(invalid_geometries))
-    blds <- blds[-c(x_blds), ]
+    x_buildings <- as.numeric(rownames(invalid_geometries))
+    buildings <- buildings[-c(x_buildings), ]
   }
   sf::sf_use_s2(TRUE)
-  blds
+  buildings
 }

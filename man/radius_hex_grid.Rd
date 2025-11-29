@@ -8,7 +8,7 @@ radius_hex_grid(radius, hex_size)
 }
 \arguments{
 \item{radius}{(sf object) sf object, usually radius of a city from
-get_city_rad, but could be another sf object}
+get_city_radius, but could be another sf object}
 
 \item{hex_size}{(numeric) number of meters across that each hex cell should be}
 }
