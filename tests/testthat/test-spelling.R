@@ -12,4 +12,3 @@ test_that("spelling", {
     spelling::spell_check_package(pkg)
   })
 })
-
