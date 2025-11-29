@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Check spelling
         run: spelling::spell_check_package(pkg)
-        shell: Rscript {0}spelling
+        shell: Rscript {0}
 #      - name: Test coverage
 #        run: |
 #          cov <- covr::package_coverage(
