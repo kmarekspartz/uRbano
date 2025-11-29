@@ -8,6 +8,7 @@ importFrom
 LINESTRING
 magrittr
 NAD
+osm
 osmdata
 param
 perl

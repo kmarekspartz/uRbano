@@ -9,7 +9,7 @@ calculate_roads_by_grid(grid, roads)
 \arguments{
 \item{grid}{(sf object) output of radius_hex_grid}
 
-\item{roads}{(sf object) OSM roads sf object}
+\item{roads}{(sf object) OpenStreetMap roads sf object}
 }
 \value{
 vector of total road length in meters that is the same length as the number of rows in the grid sf object

@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_osm_roads.R
 \name{extract_osm_roads}
 \alias{extract_osm_roads}
-\title{Get road features from OSM Overpass API for extent of city radius}
+\title{Get road features from OpenStreetMap Overpass API for extent of city radius}
 \usage{
 extract_osm_roads(city_radius)
 }
@@ -12,7 +12,7 @@ bounding box can be drawn}
 }
 \value{
 (LINESTRING sfc) sf object of line features as road segments of
-OSM key "highway" from within extent of given polygon argument
+OpenStreetMap key "highway" from within extent of given polygon argument
 }
 \description{
 Counts the number of occurrences of each element in both

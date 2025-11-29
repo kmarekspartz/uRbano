@@ -4,7 +4,7 @@
 #' the length of road segments in meters within each hexagon of the grid
 #'
 #' @param grid (sf object) output of radius_hex_grid
-#' @param roads (sf object) OSM roads sf object
+#' @param roads (sf object) OpenStreetMap roads sf object
 #
 #' @return vector of total road length in meters that is the same length as the number of rows in the grid sf object
 #'
