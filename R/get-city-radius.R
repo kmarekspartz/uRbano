@@ -17,7 +17,7 @@
 #' @examples
 #' # provide city name as a string and number of meters for radius from coordinates of city center
 #' ## 30km radius polygon for Minneapois USA
-#' uRbano::get_city_radius(city_name = "Minneapolis", radius = 30000)
+#' # uRbano::get_city_radius(city_name = "Minneapolis", radius = 30000)
 #'
 # function to create a radius around user-specified city center
 get_city_radius <- function(city_name, radius) {

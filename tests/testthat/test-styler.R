@@ -9,6 +9,6 @@ test_that("spelling", {
   }
 
   expect_snapshot({
-    styler::style_pkg(dry = "fail")
+    styler::style_pkg(pkg = pkg, dry = "fail")
   })
 })

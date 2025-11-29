@@ -9,6 +9,6 @@ test_that("spelling", {
   }
 
   expect_snapshot({
-    lintr::lint_package()
+    lintr::lint_package(path = pkg)
   })
 })

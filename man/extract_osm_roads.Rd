@@ -22,8 +22,8 @@ values is supported.
 }
 \examples{
 # result from get_city_radiusius
-rad <- uRbano::get_city_radius("Minneapolis", 30000)
+# rad <- uRbano::get_city_radius("Minneapolis", 30000)
 # Count difference in all values between the two
-uRbano::extract_osm_roads(city_radius = rad)
+# uRbano::extract_osm_roads(city_radius = rad)
 
 }
