@@ -10,6 +10,7 @@
 #' @return (LINESTRING sfc) sf object of line features as road segments of
 #' OpenStreetMap key "highway" from within extent of given polygon argument
 #'
+#' @importFrom magrittr %>%
 #' @importFrom terra ext
 #' @export
 #'

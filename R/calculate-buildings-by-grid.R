@@ -9,6 +9,7 @@
 #
 #' @return vector of total building area in meters that is the same length as the number of rows in the grid sf object
 #'
+#' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
@@ -31,13 +32,13 @@ calculate_buildings_by_grid <- function(grid, buildings) {
     )
   }
 
-  grid <- grid %>% dplyr::mutate(id = rownames(grid)) # nolint
+  grid <- grid %>% dplyr::mutate(id = rownames(grid))
 
   building_clips <- sf::st_intersection(grid, buildings)
 
   building_clips <- building_clips %>% dplyr::mutate(area = sf::st_area(building_clips))
   sum_areas <- building_clips %>%
-    dplyr::group_by(id) %>% 
+    dplyr::group_by(id) %>%
     dplyr::summarise(total_area = sum(area))
 
   building_jn <- dplyr::left_join(grid, sf::st_drop_geometry(sum_areas), by = "id")
