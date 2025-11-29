@@ -60,15 +60,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Spell check
-        run: |
-          spelling::spell_check_files(
-            list.files(
-              c("R", "vignettes"),
-              pattern = "\\.(R|Rmd)$",
-              full.names = TRUE,
-              recursive = TRUE
-            )
-          )
+        run: spelling::spell_check_package()
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
