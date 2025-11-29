@@ -18,7 +18,7 @@
 #' # fix invalid geometries and clip building footprints to city radius
 #' # buildings<-uRbano::fix_and_trim_buildings(buildings, rad)
 fix_and_trim_buildings <- function(buildings, radius) {
-  city_extent <- terra::ext(rad)
+  city_extent <- terra::ext(radius)
   bbox <- sf::st_bbox(city_extent, crs = 4326)
   bbox_sf <- sf::st_as_sfc(bbox)
   sf::sf_use_s2(FALSE) # turn off spherical geometry
