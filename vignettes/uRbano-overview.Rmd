@@ -34,7 +34,7 @@ roads <- extract_osm_roads(rad)
 buildings <- get_buildings("PuertoRico")
 
 # Trim and fix building geometries
-buildings <- fix_n_trim_buildings(buildings, rad)
+buildings <- fix_and_trim_buildings(buildings, rad)
 
 # Transform the data to meters
 rad <- transform_to_meters(rad, method = "NAD")

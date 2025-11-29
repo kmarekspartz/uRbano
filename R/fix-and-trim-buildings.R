@@ -16,8 +16,8 @@
 #'
 #' @examples
 #' # fix invalid geometries and clip building footprints to city radius
-#' # buildings<-uRbano::fix_n_trim_buildings(buildings, rad)
-fix_n_trim_buildings <- function(buildings, rad) {
+#' # buildings<-uRbano::fix_and_trim_buildings(buildings, rad)
+fix_and_trim_buildings <- function(buildings, rad) {
   cty_ex <- terra::ext(rad)
   bbox <- sf::st_bbox(cty_ex, crs = 4326)
   bbox_sf <- sf::st_as_sfc(bbox)
