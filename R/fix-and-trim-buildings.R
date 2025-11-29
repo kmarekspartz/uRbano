@@ -5,7 +5,7 @@
 #' calculating terra::area
 #'
 #' @param buildings (sfc) large simple features collection of polygons, output of get_buildings
-#' @param rad (polygon) output of get_city_radius or another extent to clip the
+#' @param radius (polygon) output of get_city_radius or another extent to clip the
 #' building footprints to
 #
 #' @return large simple features object of polygons representing building
@@ -17,9 +17,9 @@
 #' @examples
 #' # fix invalid geometries and clip building footprints to city radius
 #' # buildings<-uRbano::fix_and_trim_buildings(buildings, rad)
-fix_and_trim_buildings <- function(buildings, rad) {
-  cty_ex <- terra::ext(rad)
-  bbox <- sf::st_bbox(cty_ex, crs = 4326)
+fix_and_trim_buildings <- function(buildings, radius) {
+  city_extent <- terra::ext(rad)
+  bbox <- sf::st_bbox(city_extent, crs = 4326)
   bbox_sf <- sf::st_as_sfc(bbox)
   sf::sf_use_s2(FALSE) # turn off spherical geometry
   buildings <- sf::st_filter(buildings, bbox_sf)

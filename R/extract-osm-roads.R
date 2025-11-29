@@ -25,10 +25,10 @@ extract_osm_roads <- function(city_radius) {
   if (sf::st_crs(city_radius)$epsg != 4326) {
     city_radius <- sf::st_transform(city_radius, crs = 4326)
   }
-  cty_ex <- terra::ext(city_radius)
+  city_extent <- terra::ext(city_radius)
 
   # get roads from OpenStreetMap API
-  roads <- osmdata::opq(bbox = c(cty_ex[1], cty_ex[3], cty_ex[2], cty_ex[4])) %>%
+  roads <- osmdata::opq(bbox = c(city_extent[1], city_extent[3], city_extent[2], city_extent[4])) %>%
     osmdata::add_osm_feature(
       key = "highway",
       value = c(

@@ -48,7 +48,7 @@ get_city_radius <- function(city_name, radius) {
     ))
 
     # Validate selection
-    if (is.na(selection) || selection < 1 || selection > nrow(cty)) {
+    if (is.na(selection) || selection < 1 || selection > nrow(city)) {
       stop("Invalid selection")
     }
 
