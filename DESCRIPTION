@@ -6,6 +6,7 @@ Authors@R:
     # person("First", "Last", , "first.last@example.com", role = c("aut"))
 Maintainer: Mary Marek-Spartz <patt0335@umn.edu>
 Description: Spatial sampling design across urban environmental gradients, to guide users in building reproducible, gradient-informed experimental designs for ecological research in urban and human-modified landscapes.
+Language: en-US
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
