@@ -11,7 +11,7 @@ on:
 name: R-CMD-check
 
 jobs:
-  R-CMD-check:
+  setup:
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
     strategy:
@@ -27,7 +27,6 @@ jobs:
 #          - {os: ubuntu-latest,  r: 'devel'}
           - {os: ubuntu-latest,  r: 'release'}
 #          - {os: ubuntu-latest,  r: 'oldrel-1'}
-
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-pandoc@v2
@@ -36,9 +35,36 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
+  check-r-package:
+    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    needs: [setup]
+    steps:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: false
+  styler:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Check style
+        run: styler::style_pkg(dry = "fail")
+        shell: Rscript {0}
+  lintr:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Check lints
+        run: lintr::lint_package()
+        shell: Rscript {0}
+  spelling:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Check spelling
+        run: spelling::spell_check_package(pkg)
+        shell: Rscript {0}spelling
 #      - name: Test coverage
 #        run: |
 #          cov <- covr::package_coverage(
@@ -51,7 +77,7 @@ jobs:
   pkgdown:
     runs-on: ubuntu-latest
     needs: ['R-cmd-check']
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' }} # Only on push to main
     steps:
       - name: Build and deploy site
         run: pkgdown::build_site_github_pages()
