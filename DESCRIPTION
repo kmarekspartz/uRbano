@@ -28,6 +28,7 @@ Suggests:
     KernSmooth,
     knitr,
     lintr,
+    pkgdown,
     rcmdcheck,
     rmarkdown,
     roxygen2,
