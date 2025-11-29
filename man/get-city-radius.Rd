@@ -4,10 +4,10 @@
 \alias{get_city_radius}
 \title{Get city and create radius in meters}
 \usage{
-get_city_radius(city, radius)
+get_city_radius(city_name, radius)
 }
 \arguments{
-\item{city}{(city) string of city name for selection from \code{maps::world.cities}
+\item{city_name}{(city_name) string of city name for selection from \code{maps::world.cities}
 dataset in \code{maps}}
 
 \item{radius}{(radius) integer of radius in meters}

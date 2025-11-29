@@ -4,18 +4,18 @@
 \alias{fix_and_trim_buildings}
 \title{trim building footprints to a smaller extent and remove invalid geometries}
 \usage{
-fix_and_trim_buildings(buildings, rad)
+fix_and_trim_buildings(buildings, radius)
 }
 \arguments{
 \item{buildings}{(sfc) large simple features collection of polygons, output of get_buildings}
 
-\item{rad}{(polygon) output of get_city_radius or another extent to clip the
+\item{radius}{(polygon) output of get_city_radius or another extent to clip the
 building footprints to}
 }
 \value{
 large simple features object of polygons representing building
 footprints in invalid geometries omitted and trimmed to the extent of the
-second parameter, rad
+second parameter, radius
 }
 \description{
 OPTIONAL BUT RECOMMENDED - reduce buildings to extent of a
@@ -24,5 +24,5 @@ calculating terra::area
 }
 \examples{
 # fix invalid geometries and clip building footprints to city radius
-# buildings<-uRbano::fix_and_trim_buildings(buildings, rad)
+# buildings<-uRbano::fix_and_trim_buildings(buildings, radius)
 }
