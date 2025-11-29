@@ -6,7 +6,7 @@
 # information on city's country and population for the user to specify their
 # selection by number
 #'
-#' @param city (city) string of city name for selection from `maps::world.cities`
+#' @param city_name (city_name) string of city name for selection from `maps::world.cities`
 #' dataset in `maps`
 #' @param radius (radius) integer of radius in meters
 #'
@@ -17,28 +17,28 @@
 #' @examples
 #' # provide city name as a string and number of meters for radius from coordinates of city center
 #' ## 30km radius polygon for Minneapois USA
-#' uRbano::get_city_radius(city = "Minneapolis", radius = 30000)
+#' uRbano::get_city_radius(city_name = "Minneapolis", radius = 30000)
 #'
 # function to create a radius around user-specified city center
-get_city_radius <- function(city, radius) {
+get_city_radius <- function(city_name, radius) {
   # Find matching cities
-  cty <- subset(maps::world.cities, maps::world.cities$name == city)
+  city <- subset(maps::world.cities, maps::world.cities$name == city_name)
 
   # Handle case where no cities are found
-  if (nrow(cty) == 0) {
+  if (nrow(city) == 0) {
     stop("No cities found matching the criteria")
   }
 
   # Handle case where multiple cities are found
-  if (nrow(cty) > 1) {
+  if (nrow(city) > 1) {
     cat("Multiple cities found:\n")
-    for (i in seq_len(nrow(cty))) {
+    for (i in seq_len(nrow(city))) {
       cat(sprintf(
         "%d: %s, %s (Pop: %s)\n",
         i,
-        cty$name[i],
-        cty$country.etc[i],
-        format(cty$pop[i], big.mark = ",")
+        city$name[i],
+        city$country.etc[i],
+        format(city$pop[i], big.mark = ",")
       ))
     }
 
@@ -53,10 +53,10 @@ get_city_radius <- function(city, radius) {
     }
 
     # Use selected city
-    cty <- cty[selection, ]
+    city <- city[selection, ]
   }
 
   # Convert to sf object and create buffer
-  cty_coordinates <- sf::st_as_sf(cty, coordinates = c("long", "lat"), crs = 4326)
-  sf::st_buffer(cty_coordinates, radius)
+  city_coords <- sf::st_as_sf(city, coords = c("long", "lat"), crs = 4326)
+  sf::st_buffer(city_coords, radius)
 }
