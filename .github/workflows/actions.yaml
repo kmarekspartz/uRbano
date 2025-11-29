@@ -24,7 +24,7 @@ jobs:
           - {os: ubuntu-latest,  r: 'release'}
 #          - {os: ubuntu-latest,  r: 'oldrel-1'}
     runs-on: ${{ matrix.config.os }}
-    name: check-r-package on ${{ matrix.config.os }} (R ${{ matrix.config.r }})
+    name: check-r-package on ${{ matrix.config.os }} using R version ${{ matrix.config.r }}
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-pandoc@v2
