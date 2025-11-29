@@ -24,7 +24,7 @@ jobs:
           - {os: ubuntu-latest,  r: 'release'}
 #          - {os: ubuntu-latest,  r: 'oldrel-1'}
     runs-on: ${{ matrix.config.os }}
-    name: check-r-package ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: check-r-package on ${{ matrix.config.os }} (R ${{ matrix.config.r }})
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-pandoc@v2
@@ -52,7 +52,7 @@ jobs:
         run: styler::style_pkg(dry = "fail")
         shell: Rscript {0}
       - name: Check spelling
-        run: spelling::spell_check_package(pkg)
+        run: spelling::spell_check_package()
         shell: Rscript {0}        
 #      - name: Test coverage
 #        run: |
