@@ -82,5 +82,5 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
       - name: Build and deploy site
-        run: pkgdown::build_site_github_pages()
+        run: devtools::install(); pkgdown::build_site_github_pages()
         shell: Rscript {0}
