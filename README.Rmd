@@ -13,12 +13,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-# uRbano
+# `uRbano` - functions for spatial sampling across built density gradients
+<img src = "inst/figures/logo-city.png" align = "left" width = "20%"/>
+
+`uRbano` is designed to support spatial sampling design across urban environmental gradients, to guide users in building reproducible, gradient-informed experimental designs for ecological research in urban and human-modified landscapes.
 
 <!-- badges: start -->
 <!-- badges: end -->
-
-The goal of uRbano is to ...
 
 ## Installation
 
@@ -37,3 +38,9 @@ This is a basic example which shows you how to solve a common problem:
 library(uRbano)
 ## basic example code
 ```
+
+## Sources
+
+`uRbano` pulls building footprints from various releases of Microsoft's [Open Building Footprints](https://github.com/microsoft/GlobalMLBuildingFootprints/tree/main?tab=readme-ov-file) depending on the region of interest
+
+`uRbano` uses the `osmdata` package to access the OpenStreetMap Overpass API to import road features for calculating road density metrics
