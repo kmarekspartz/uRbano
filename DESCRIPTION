@@ -25,6 +25,7 @@ Imports:
 Suggests:
     class,
     covr,
+    devtools,
     KernSmooth,
     knitr,
     lintr,
