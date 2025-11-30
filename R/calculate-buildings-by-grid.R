@@ -36,12 +36,17 @@ calculate_buildings_by_grid <- function(grid, buildings) {
 
   building_clips <- sf::st_intersection(grid, buildings)
 
-  building_clips <- building_clips %>% dplyr::mutate(area = sf::st_area(building_clips))
+  building_clips <- building_clips %>%
+    dplyr::mutate(area = sf::st_area(building_clips))
   sum_areas <- building_clips %>%
     dplyr::group_by(id) %>%
     dplyr::summarise(total_area = sum(area))
 
-  building_jn <- dplyr::left_join(grid, sf::st_drop_geometry(sum_areas), by = "id")
+  building_jn <- dplyr::left_join(
+    grid,
+    sf::st_drop_geometry(sum_areas),
+    by = "id"
+  )
 
   # Return as a numeric vector
   units::drop_units(building_jn$total_area)

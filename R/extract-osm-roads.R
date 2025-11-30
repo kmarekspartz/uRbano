@@ -28,7 +28,9 @@ extract_osm_roads <- function(city_radius) {
   city_extent <- terra::ext(city_radius)
 
   # get roads from OpenStreetMap API
-  roads <- osmdata::opq(bbox = c(city_extent[1], city_extent[3], city_extent[2], city_extent[4])) %>%
+  roads <- osmdata::opq(
+    bbox = c(city_extent[1], city_extent[3], city_extent[2], city_extent[4])
+  ) %>%
     osmdata::add_osm_feature(
       key = "highway",
       value = c(

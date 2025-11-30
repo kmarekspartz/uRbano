@@ -40,6 +40,10 @@ jobs:
         with:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install Air
+        uses: posit-dev/setup-air@v1
+      - name: Check Air formatting
+        run: air format . --check
       - name: Check style
         run: styler::style_pkg(dry = "fail")
         shell: Rscript {0}
